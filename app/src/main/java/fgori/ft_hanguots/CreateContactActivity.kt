@@ -16,20 +16,18 @@ class CreateContactActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        // --- ESEMPIO DI UTILIZZO DELLA CLASSE CONTACT ---
-
-        // 1. Crei una nuova istanza (oggetto) della tua classe Contact.
-        //    L'ID deve essere univoco, qui usiamo il timestamp corrente come esempio.
         val newContact = Contact(id = System.currentTimeMillis())
 
-        // 2. Assegni i valori alle sue proprietà. In un'app reale, leggeresti
-        //    questi valori da campi di testo (EditText) che l'utente ha compilato.
-        newContact.name = "Mario Rossi"
-        newContact.phone = "123456789"
-        newContact.email = "mario.rossi@example.com"
+        val textName = findViewById<EditText>(R.id.editTextText)
+        textName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (s == null) {
+                    return
+                }
+            }
+        })
+        }
 
-        // Ora l'oggetto 'newContact' contiene tutti i dati e puoi salvarlo
-        // in un database, passarlo a un'altra activity, ecc.
-    }
 }

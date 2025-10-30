@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ft_hanguots2</string>
+
+    <string name="cancel">Annulla</string>
+    <string name="save">Salva</string>
+    <string name="name_hint">Nome</string>
+    <string name="surname_hint">Cognome</string>
+    <string name="email_hint">Email</string>
+    <string name="phone_hint">Telefono</string>
+    <string name="address_hint">Indirizzo</string>
+    <string name="contact_image_description">Immagine del contatto</string>
 </resources>
