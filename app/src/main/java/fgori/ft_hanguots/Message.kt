@@ -2,11 +2,23 @@ package fgori.ft_hanguots
 
 class Message {
 
-    var direction: MsgDir
-    var content: String
+    val direction: MsgDir
+    val content: String
+    val timeStamp: Long
+    val other: Long
 
-    constructor(InOrOut: MsgDir, content: String) {
-        this.direction = InOrOut;
+
+    constructor(inOrOut: MsgDir, content: String, other: Long) {
+        this.direction = inOrOut;
         this.content = content;
+        this.timeStamp = System.currentTimeMillis();
+        this.other = other;
+    }
+
+    constructor(inOrOut: MsgDir, content: String, other: Long, timeStamp: Long) {
+        this.direction = inOrOut;
+        this.content = content;
+        this.timeStamp = timeStamp;
+        this.other = other;
     }
 }
