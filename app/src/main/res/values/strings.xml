@@ -14,4 +14,5 @@
     <string name="sigin_hint">Iscriviti</string>
     <string name="return_text">Torna in dietro</string>
     <string name="setting">Impostazioni</string>
+    <string name="chat">messaggio...</string>
 </resources>

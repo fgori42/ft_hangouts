@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ft_hanguots2">
         <activity
+            android:name=".chatActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateContact"
             android:exported="false" />
         <activity

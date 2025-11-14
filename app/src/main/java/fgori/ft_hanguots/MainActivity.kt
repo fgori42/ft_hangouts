@@ -9,8 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var contactRecyclerView: RecyclerView
+    private lateinit var contactAdapter: ContactAdapter
+    private var cantcatList: MutableList<Contact> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,7 +29,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val ManContacts = findViewById<View>(R.id.contactList)
+        contactRecyclerView = findViewById(R.id.contactList)
+        contactRecyclerView.layoutManager = LinearLayoutManager(this)
+        contactAdapter = ContactAdapter(cantcatList)
+        contactRecyclerView.adapter = contactAdapter
+
 
 
         val button = findViewById<Button>(R.id.button)
@@ -47,4 +59,17 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+    override fun onResume() {
+        super.onResume()
+        loadContactsFromDatabase()
+    }
+
+    private fun loadContactsFromDatabase() {
+        val dbHelper = DatabaseHelper(this)
+        val updatedContactList = dbHelper.getContacts()
+        cantcatList.clear()
+        cantcatList.addAll(updatedContactList)
+        contactAdapter.notifyDataSetChanged()
+    }
+
 }

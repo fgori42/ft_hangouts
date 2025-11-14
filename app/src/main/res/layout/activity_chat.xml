@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".chatActivity">
+
+    <ImageView
+        android:id="@+id/contactImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messageList"
+        android:layout_width="335dp"
+        android:layout_height="384dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contactImg" />
+
+    <ImageView
+        android:id="@+id/myImg"
+        android:layout_width="115dp"
+        android:layout_height="110dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/contactInfo"
+        android:layout_width="0dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="60dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/messageList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/contactImg"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/chatText"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="53dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="60dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/chat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/myImg"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/messageList" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
