@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 class chatActivity(contactId : Long) : AppCompatActivity() {
     private val dbhelper = DatabaseHelper(this)
-    private lateinit var messageRecyclerView: RecyclerVieW
+    private lateinit var messageRecyclerView: RecyclerView // Correct
     private lateinit var messageList : MutableList<Message>
     private lateinit var messageAdapter: MessageAdapter
 

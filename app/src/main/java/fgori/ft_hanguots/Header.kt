@@ -32,6 +32,12 @@ class Header : FrameLayout {
         init(attrs, defStyle)
     }
 
+    public fun changeColor(color: Int)
+    {
+
+    }
+
+
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         LayoutInflater.from(context).inflate(R.layout.sample_header_layout, this, true)
 

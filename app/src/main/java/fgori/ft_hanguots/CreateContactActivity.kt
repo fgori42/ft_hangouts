@@ -22,11 +22,9 @@ class CreateContactActivity : AppCompatActivity() {
         uri?.let {
             selectedImageUri = it
             image.setImageURI(it)
-
-            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            contentResolver.takePersistableUriPermission(it, flag)
         }
     }
+
 
     fun createContactList() : MutableList<EditText>
     {

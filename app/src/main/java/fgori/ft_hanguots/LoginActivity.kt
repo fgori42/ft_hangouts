@@ -77,7 +77,7 @@ class LoginActivity : AppCompatActivity() {
             else
             {
                 val name = nameText.text.toString()
-                val password = passwordText.text.toString()
+                val password = sigIntexts[0].text.toString()
 
 
                 if (name.isBlank() || password.isBlank()) {
