@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+        val header = findViewById<Header>(R.id.header)
+        header.notifyActivityChanged("MainActivity")
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -41,6 +44,12 @@ class MainActivity : AppCompatActivity() {
         val button3 = findViewById<Button>(R.id.button3)
         val button4 = findViewById<Button>(R.id.button4)
 
+        val buttonRed = findViewById<Button>(R.id.red)
+        val buttonBlu = findViewById<Button>(R.id.blu)
+        val buttonGreen = findViewById<Button>(R.id.green)
+
+
+
         button.setOnClickListener {
             if (button2.isVisible) {
                 button2.visibility = View.INVISIBLE
@@ -55,6 +64,19 @@ class MainActivity : AppCompatActivity() {
 
         button2.setOnClickListener {
             startActivity(Intent(this, CreateContactActivity::class.java))
+
+        }
+
+        buttonGreen.setOnClickListener {
+            header.changeColor("#00FF00")
+
+        }
+        buttonRed.setOnClickListener {
+            header.changeColor("#FF0000")
+
+        }
+        buttonBlu.setOnClickListener {
+            header.changeColor("#0000FF")
 
         }
 

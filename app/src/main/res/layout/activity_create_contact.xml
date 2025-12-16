@@ -92,6 +92,7 @@
         tools:ignore="Autofill"/>
 
     <fgori.ft_hanguots.Header
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:layout_constraintTop_toTopOf="parent" />

@@ -10,10 +10,18 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.view.View
+import androidx.core.graphics.toColorInt
+import android.graphics.drawable.GradientDrawable
+import androidx.core.view.isVisible
 
+interface HeaderListener{
+    fun onActivityChanged(activity: String)
 
+}
 class Header : FrameLayout {
 
+    private var headerColor: String = "@color/light_blue_400"
+    private var  listener: HeaderListener? = null
 
 
     constructor(context: Context) : super(context) {
@@ -32,19 +40,68 @@ class Header : FrameLayout {
         init(attrs, defStyle)
     }
 
-    public fun changeColor(color: Int)
+    public fun setHeaderListener(listener: HeaderListener)
     {
+        this.listener = listener
+    }
+    public fun notifyActivityChanged(activity: String)
+    {
+        when(activity)
+        {
+            "ChatActivity" -> setChat()
+            else -> setOther()
+        }
+    }
+    private fun setChat() {
+        val chatHeader = findViewById<View>(R.id.chatHeader)
+        chatHeader?.visibility = View.VISIBLE
 
+    }
+
+    private fun setOther() {
+        val chatHeader = findViewById<View>(R.id.chatHeader)
+        if (chatHeader?.isVisible == true)
+            chatHeader.visibility = View.INVISIBLE
+    }
+
+
+
+    private fun applyNewColor()
+    {
+        var startColor: Int
+        try{
+            startColor = Color.parseColor(headerColor)
+            setBackgroundColor(startColor)
+        }catch (e: IllegalArgumentException)
+        {
+            println("color not found")
+            setBackgroundColor(Color.parseColor("#2196F3"))
+            startColor = Color.parseColor("#2196F3")
+        }
+
+        val endColor: Int = Color.TRANSPARENT
+        val gradient = GradientDrawable(
+            GradientDrawable.Orientation.TOP_BOTTOM,
+            intArrayOf(startColor, endColor)
+        )
+
+        val chatHeader = findViewById<View>(R.id.chatHeader)
+        chatHeader?.background = gradient
+
+
+
+    }
+
+    public fun changeColor(newColor: String)
+    {
+        headerColor = newColor
+        applyNewColor()
     }
 
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         LayoutInflater.from(context).inflate(R.layout.sample_header_layout, this, true)
 
-        // 2. TROVA il pulsante tra i pezzi assemblati
-
-
-        // Imposta uno sfondo di default
         setBackgroundColor(Color.parseColor("#2196F3"))
 
 
