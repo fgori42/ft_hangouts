@@ -121,7 +121,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         return contactList
     }
 
-    fun getIdList(idToFind: Long): List<Message>{
+    fun getIdList(idToFind: Long): MutableList<Message>{
         val messageList = mutableListOf<Message>()
         val selectQuery = "SELECT * FROM $TABLE_MESSAGES WHERE $COLUMN_MESSAGE_CONTACT_ID = ?"
         val selectionArgs = arrayOf(idToFind.toString())
