@@ -41,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -48,6 +49,16 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val sharedPrefs = getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
+
+        var  isIn  = sharedPrefs.getBoolean("IS_LOGGED_IN", false)
+        if (isIn){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
 
         val loginButton = findViewById<Button>(R.id.logIn_btm)
         val registerButton = findViewById<Button>(R.id.button_sigIn)
@@ -92,7 +103,7 @@ class LoginActivity : AppCompatActivity() {
                 editor.putString("USER_NAME", name)
                 editor.putString("USER_IMAGE_URI", selectedImageUri?.toString() ?: "")
                 editor.putString("USER_PASSWORD", password)
-                editor.putBoolean("IS_LOGGED_IN", true) // Il flag di login!
+                editor.putBoolean("IS_LOGGED_IN", true)
 
                 editor.apply()
 
@@ -135,6 +146,10 @@ class LoginActivity : AppCompatActivity() {
             val savedPassword = sharedPrefs.getString("USER_PASSWORD", "")
 
             if (name == savedName && password == savedPassword) {
+                val editor = sharedPrefs.edit()
+                editor.putBoolean("IS_LOGGED_IN", true)
+                editor.apply()
+
                 Toast.makeText(this, "Welcome back, $name!", Toast.LENGTH_SHORT).show()
 
                 val intent = Intent(this, MainActivity::class.java)

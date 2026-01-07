@@ -5,10 +5,9 @@ import java.lang.IllegalArgumentException
 
 
 
-class Contact(private val id : Long) {
+class Contact(public val id : Long) {
     private var name: String = ""
     private var surname: String = ""
-    private var fatherNane: String = ""
     private var email: String = "" 
     private var phone: String = ""
     private var address: String = ""

@@ -13,6 +13,7 @@ import android.view.View
 import androidx.core.graphics.toColorInt
 import android.graphics.drawable.GradientDrawable
 import androidx.core.view.isVisible
+import android.content.SharedPreferences
 
 interface HeaderListener{
     fun onActivityChanged(activity: String)
@@ -22,7 +23,6 @@ class Header : FrameLayout {
 
     private var headerColor: String = "@color/light_blue_400"
     private var  listener: HeaderListener? = null
-
 
     constructor(context: Context) : super(context) {
         init(null, 0)
@@ -69,17 +69,17 @@ class Header : FrameLayout {
     private fun applyNewColor()
     {
         var startColor: Int
+        val topBand = findViewById<View>(R.id.top_band)
         try{
             startColor = Color.parseColor(headerColor)
-            setBackgroundColor(startColor)
         }catch (e: IllegalArgumentException)
         {
             println("color not found")
-            setBackgroundColor(Color.parseColor("#2196F3"))
             startColor = Color.parseColor("#2196F3")
         }
-
+        topBand?.setBackgroundColor(startColor)
         val endColor: Int = Color.TRANSPARENT
+        this.setBackgroundColor(Color.TRANSPARENT)
         val gradient = GradientDrawable(
             GradientDrawable.Orientation.TOP_BOTTOM,
             intArrayOf(startColor, endColor)
@@ -94,6 +94,10 @@ class Header : FrameLayout {
 
     public fun changeColor(newColor: String)
     {
+        val sharedPrefs by lazy { context.getSharedPreferences("UserProfile", Context.MODE_PRIVATE) }
+        val editor = sharedPrefs.edit()
+        editor.putString("USER_COLOR", newColor)
+        editor.apply()
         headerColor = newColor
         applyNewColor()
     }
@@ -101,8 +105,11 @@ class Header : FrameLayout {
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         LayoutInflater.from(context).inflate(R.layout.sample_header_layout, this, true)
-
-        setBackgroundColor(Color.parseColor("#2196F3"))
+        val sharedPrefs by lazy { context.getSharedPreferences("UserProfile", Context.MODE_PRIVATE) }
+        val editor = sharedPrefs.edit()
+        val color = sharedPrefs.getString("USER_COLOR", "@color/light_blue_400")
+        headerColor = color ?: "@color/light_blue_400"
+        applyNewColor()
 
 
     }

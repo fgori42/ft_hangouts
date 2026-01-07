@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var contactRecyclerView: RecyclerView
     private lateinit var contactAdapter: ContactAdapter
-    private var cantcatList: MutableList<Contact> = mutableListOf()
+    private var contactList: MutableList<Contact> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,11 @@ class MainActivity : AppCompatActivity() {
 
         contactRecyclerView = findViewById(R.id.contactList)
         contactRecyclerView.layoutManager = LinearLayoutManager(this)
-        contactAdapter = ContactAdapter(cantcatList)
+        contactAdapter = ContactAdapter(contactList){contact ->
+            val intent = Intent(this, chatActivity::class.java)
+            intent.putExtra("contactId", contact.id)
+            startActivity(intent)
+        }
         contactRecyclerView.adapter = contactAdapter
 
 
@@ -89,8 +93,8 @@ class MainActivity : AppCompatActivity() {
     private fun loadContactsFromDatabase() {
         val dbHelper = DatabaseHelper(this)
         val updatedContactList = dbHelper.getContacts()
-        cantcatList.clear()
-        cantcatList.addAll(updatedContactList)
+        contactList.clear()
+        contactList.addAll(updatedContactList)
         contactAdapter.notifyDataSetChanged()
     }
 

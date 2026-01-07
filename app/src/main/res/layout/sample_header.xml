@@ -8,80 +8,14 @@
     tools:context=".MainActivity">
 
     <fgori.ft_hanguots.Header
+        android:id="@+id/header"
         style="@style/Widget.Theme.Ft_hanguots2.MyView"
         android:layout_width="match_parent"
-        android:id="@+id/header"
-        android:layout_height="120dp"
-        android:paddingLeft="20dp"
-        android:paddingBottom="40dp"
+        android:layout_height="wrap_content"
+
         app:exampleDimension="24sp"
         app:exampleDrawable="@android:drawable/ic_menu_add"
         app:exampleString="Hello, Header" />
-
-    <RelativeLayout
-        android:id="@+id/chatHeader"
-        android:layout_width="match_parent"
-        app:layout_constraintTop_toTopOf="@+id/header"
-        android:layout_height="100dp"
-        android:background="@drawable/chat_banner"
-        android:visibility="invisible"
-        >
-        <FrameLayout
-            android:id="@+id/imageContainer"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="36dp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/background_circle">
-
-            <!-- 2. L'immagine vera e propria, che riempie il FrameLayout -->
-            <ImageView
-                android:id="@+id/contactImg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                tools:srcCompat="@tools:sample/avatars"
-                android:background="@drawable/background_circle"/>
-
-        </FrameLayout>
-
-
-        <LinearLayout
-            android:layout_width="262dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="150dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageContainer"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                tools:text="nome contattp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                tools:text="cognome" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                tools:text="numero" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                tools:text="email" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
 
 
 </LinearLayout>

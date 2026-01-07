@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ContactAdapter (private val contactList: List<Contact>) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>()
+class ContactAdapter (private val contactList: List<Contact>, private val onItemClick :(Contact) -> Unit) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>()
 {
     class ContactViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
@@ -31,6 +31,9 @@ class ContactAdapter (private val contactList: List<Contact>) : RecyclerView.Ada
             holder.contactImage.setImageURI(uri)
         }else{
             holder.contactImage.setImageResource(R.drawable.ic_launcher_foreground)
+        }
+        holder.itemView.setOnClickListener {
+            onItemClick(currentContact)
         }
     }
     override fun getItemCount(): Int {
