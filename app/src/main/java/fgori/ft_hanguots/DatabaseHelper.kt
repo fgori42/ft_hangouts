@@ -121,6 +121,26 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         return contactList
     }
 
+    fun getIdContact(idToFind: Long): Contact? {
+        val db = this.readableDatabase
+        val selectQuery = "SELECT * FROM $TABLE_CONTACTS WHERE $COLUMN_ID = ?"
+        if (idToFind == -1L) return null
+        val cursor = db.rawQuery(selectQuery, arrayOf(idToFind.toString()))
+        var contact: Contact? = null
+        if (cursor.moveToFirst()) {
+            val name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME))
+            val surname = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SURNAME))
+            val phone = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PHONE))
+            val email = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EMAIL))
+            val address = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ADDRESS))
+            val imageUri = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_URI))
+            contact = Contact(idToFind, name, surname, email, phone, address, imageUri)
+        }
+        cursor.close()
+        db.close()
+        return contact
+    }
+
     fun getIdList(idToFind: Long): MutableList<Message>{
         val messageList = mutableListOf<Message>()
         val selectQuery = "SELECT * FROM $TABLE_MESSAGES WHERE $COLUMN_MESSAGE_CONTACT_ID = ?"

@@ -13,6 +13,7 @@
         android:theme="@style/Theme.Ft_hanguots2">
         <activity
             android:name=".chatActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".CreateContact"

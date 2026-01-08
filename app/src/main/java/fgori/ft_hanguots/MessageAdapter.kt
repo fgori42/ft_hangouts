@@ -34,16 +34,13 @@ class MessageAdapter(private val messageList: List<Message>) : RecyclerView.Adap
         val message = messageList[position]
         holder.messageText.text = message.content
         val params = holder.messageText.layoutParams as ConstraintLayout.LayoutParams
-        if (getItemViewType(position) == 0)
-        {
-            holder.messageText.setBackgroundResource(R.drawable.bg_chat_bubble_sent)
-            params.startToEnd = ConstraintLayout.LayoutParams.UNSET
-            params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-        }
-        else
-        {
+        params.startToStart = ConstraintLayout.LayoutParams.UNSET
+        params.endToEnd = ConstraintLayout.LayoutParams.UNSET
+        if (getItemViewType(position) == 0) { // MsgDir.IN (Ricevuto -> Sinistra)
             holder.messageText.setBackgroundResource(R.drawable.bg_chat_bubble_received)
-            params.startToEnd = ConstraintLayout.LayoutParams.UNSET
+            params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+        } else { // MsgDir.OUT (Inviato -> Destra)
+            holder.messageText.setBackgroundResource(R.drawable.bg_chat_bubble_sent)
             params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
         }
         holder.messageText.layoutParams = params

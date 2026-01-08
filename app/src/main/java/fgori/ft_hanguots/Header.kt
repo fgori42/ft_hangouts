@@ -14,6 +14,9 @@ import androidx.core.graphics.toColorInt
 import android.graphics.drawable.GradientDrawable
 import androidx.core.view.isVisible
 import android.content.SharedPreferences
+import android.widget.ImageView
+import android.widget.TextView
+import android.net.Uri
 
 interface HeaderListener{
     fun onActivityChanged(activity: String)
@@ -40,22 +43,43 @@ class Header : FrameLayout {
         init(attrs, defStyle)
     }
 
+
     public fun setHeaderListener(listener: HeaderListener)
     {
         this.listener = listener
     }
     public fun notifyActivityChanged(activity: String)
     {
-        when(activity)
-        {
-            "ChatActivity" -> setChat()
-            else -> setOther()
+        post {
+            when (activity) {
+                "ChatActivity" -> setChat()
+                else -> setOther()
+            }
+        }
+    }
+
+    public fun populateChatHeader(contact: Contact)
+    {
+        val contactImg = findViewById<ImageView>(R.id.contactImg)
+        val contactName = findViewById<TextView>(R.id.contactName)
+        val contactPhone = findViewById<TextView>(R.id.contactPhone)
+
+        contactName?.text = contact.getValue("name") + " " + contact.getValue("surname")
+        contactPhone?.text = contact.getValue("phone")
+        val imgUriString = contact.getValue("img")
+        if (imgUriString.isNotEmpty()) {
+            try {
+                contactImg?.setImageURI(android.net.Uri.parse(imgUriString))
+            } catch (e: Exception) {
+                contactImg?.setImageResource(R.drawable.ic_launcher_foreground) // Default se l'URI fallisce
+            }
+        } else {
+            contactImg?.setImageResource(R.drawable.ic_launcher_foreground)
         }
     }
     private fun setChat() {
         val chatHeader = findViewById<View>(R.id.chatHeader)
         chatHeader?.visibility = View.VISIBLE
-
     }
 
     private fun setOther() {
