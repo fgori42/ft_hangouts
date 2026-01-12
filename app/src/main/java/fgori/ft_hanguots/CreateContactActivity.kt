@@ -12,19 +12,41 @@ import android.widget.ImageView
 import android.content.Intent
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 
 class CreateContactActivity : AppCompatActivity() {
     private lateinit var image: ImageView
     private var selectedImageUri: Uri? = null
 
-
-    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            selectedImageUri = it
-            image.setImageURI(it)
+    private fun saveImageToInternalStorage(uri: Uri): Uri? {
+        return try {
+            val inputStream: InputStream? = contentResolver.openInputStream(uri)
+            val file = File(filesDir, "IMG_${System.currentTimeMillis()}.jpg")
+            val outputStream = FileOutputStream(file)
+            inputStream?.use { input ->
+                outputStream.use { output ->
+                    input.copyTo(output)
+                }
+            }
+            Uri.fromFile(file)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show()
+            null
         }
     }
 
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            val savedUri = saveImageToInternalStorage(it)
+            savedUri?.let { newUri ->
+                selectedImageUri = newUri
+                image.setImageURI(newUri)
+            }
+        }
+    }
 
     fun createContactList() : MutableList<EditText>
     {
@@ -77,16 +99,13 @@ class CreateContactActivity : AppCompatActivity() {
                 listOfText[2].text.toString(),
                 listOfText[3].text.toString(),
                 listOfText[4].text.toString(),
-                selectedImageUri.toString())
+                selectedImageUri?.toString() ?: "")
             dbHelper.addContact(newContact)
             finish()
         }
 
         image.setOnClickListener {
             pickImageLauncher.launch("image/*")
-
-
         }
     }
-
 }

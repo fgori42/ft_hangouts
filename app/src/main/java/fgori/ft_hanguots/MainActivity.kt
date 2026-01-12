@@ -18,12 +18,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var contactRecyclerView: RecyclerView
     private lateinit var contactAdapter: ContactAdapter
     private var contactList: MutableList<Contact> = mutableListOf()
+    private lateinit var header: Header
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        val header = findViewById<Header>(R.id.header)
+        header = findViewById(R.id.header)
         header.notifyActivityChanged("MainActivity")
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -85,8 +87,15 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onPause() {
+        super.onPause()
+        header.onPause()
+    }
+
     override fun onResume() {
         super.onResume()
+        header.onResume()
         loadContactsFromDatabase()
     }
 

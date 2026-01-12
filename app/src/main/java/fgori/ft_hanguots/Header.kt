@@ -14,9 +14,11 @@ import androidx.core.graphics.toColorInt
 import android.graphics.drawable.GradientDrawable
 import androidx.core.view.isVisible
 import android.content.SharedPreferences
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import android.net.Uri
+import android.widget.Toast
+import java.util.concurrent.TimeUnit
 
 interface HeaderListener{
     fun onActivityChanged(activity: String)
@@ -26,6 +28,7 @@ class Header : FrameLayout {
 
     private var headerColor: String = "@color/light_blue_400"
     private var  listener: HeaderListener? = null
+    private var toastTime: Long = 0
 
     constructor(context: Context) : super(context) {
         init(null, 0)
@@ -42,7 +45,29 @@ class Header : FrameLayout {
     ) {
         init(attrs, defStyle)
     }
+    public fun onPause(){
+        toastTime = System.currentTimeMillis()
+    }
 
+    public fun onResume() {
+        if (toastTime > 0) {
+            val durationMillis = System.currentTimeMillis() - toastTime
+            if (durationMillis >= 1000) { // Mostra il toast solo se è passato almeno un secondo
+                val hours = TimeUnit.MILLISECONDS.toHours(durationMillis)
+                val minutes = TimeUnit.MILLISECONDS.toMinutes(durationMillis) % 60
+                val seconds = TimeUnit.MILLISECONDS.toSeconds(durationMillis) % 60
+                val formattedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+                val totalSeconds = TimeUnit.MILLISECONDS.toSeconds(durationMillis)
+
+                val text =
+                    context.getString(R.string.backText) + " " +formattedTime + " " + context.getString(R.string.backText2) +" "+ totalSeconds +" " + context.getString(
+                        R.string.backText3
+                    )
+                Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+            }
+            toastTime = 0 // Reset timer
+        }
+    }
 
     public fun setHeaderListener(listener: HeaderListener)
     {
@@ -60,6 +85,8 @@ class Header : FrameLayout {
 
     public fun populateChatHeader(contact: Contact)
     {
+        Log.d("HeaderDebug", "Populating header. Name: ${contact.getValue("name")}, Img: ${contact.getValue("img")}")
+
         val contactImg = findViewById<ImageView>(R.id.contactImg)
         val contactName = findViewById<TextView>(R.id.contactName)
         val contactPhone = findViewById<TextView>(R.id.contactPhone)
@@ -92,6 +119,7 @@ class Header : FrameLayout {
 
     private fun applyNewColor()
     {
+        Log.d("HeaderDebug", "applyNewColor called with color: $headerColor")
         var startColor: Int
         val topBand = findViewById<View>(R.id.top_band)
         try{
@@ -128,6 +156,8 @@ class Header : FrameLayout {
 
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
+        Log.d("HeaderDebug", "init called")
+
         LayoutInflater.from(context).inflate(R.layout.sample_header_layout, this, true)
         val sharedPrefs by lazy { context.getSharedPreferences("UserProfile", Context.MODE_PRIVATE) }
         val editor = sharedPrefs.edit()

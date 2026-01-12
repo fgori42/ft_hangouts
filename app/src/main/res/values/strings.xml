@@ -15,4 +15,8 @@
     <string name="return_text">Torna in dietro</string>
     <string name="setting">Impostazioni</string>
     <string name="chat">messaggio...</string>
+    <string name="backText">applicazione e` stata messa in background </string>
+    <string name="backText2"> per </string>
+    <string name="backText3"> secondi</string>
+
 </resources>
