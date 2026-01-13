@@ -17,13 +17,15 @@ class chatActivity() : AppCompatActivity() {
     private lateinit var messageRecyclerView: RecyclerView // Correct
     private lateinit var messageList : MutableList<Message>
     private lateinit var messageAdapter: MessageAdapter
+    private lateinit var header: Header
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val contactId = intent.getLongExtra("contactId", -1L)
         setContentView(R.layout.activity_chat)
-        val header = findViewById<Header>(R.id.header)
+        header = findViewById<Header>(R.id.header)
         header.notifyActivityChanged("ChatActivity")
         val contact = dbhelper.getIdContact(contactId)
         if (contact != null) {
@@ -68,6 +70,14 @@ class chatActivity() : AppCompatActivity() {
         }
 
     }
+    public override fun onPause(){
+        super.onPause()
+        header.onPause()
+    }
 
+    public override fun onResume() {
+        super.onResume()
+        header.onResume()
+    }
 
 }

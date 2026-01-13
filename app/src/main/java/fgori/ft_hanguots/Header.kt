@@ -65,7 +65,7 @@ class Header : FrameLayout {
                     )
                 Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
             }
-            toastTime = 0 // Reset timer
+            toastTime = 0
         }
     }
 

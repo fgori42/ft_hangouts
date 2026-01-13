@@ -19,6 +19,8 @@ import java.io.InputStream
 class CreateContactActivity : AppCompatActivity() {
     private lateinit var image: ImageView
     private var selectedImageUri: Uri? = null
+    private lateinit var header: Header
+
 
     private fun saveImageToInternalStorage(uri: Uri): Uri? {
         return try {
@@ -59,11 +61,21 @@ class CreateContactActivity : AppCompatActivity() {
         return list
     }
 
+    public override fun onPause() {
+        super.onPause()
+        header.onPause()
+    }
+
+    public override fun onResume() {
+        super.onResume()
+        header.onResume()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_create_contact)
-        val header = findViewById<Header>(R.id.header)
+        header = findViewById<Header>(R.id.header)
         header.notifyActivityChanged("CreateContactActivity")
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

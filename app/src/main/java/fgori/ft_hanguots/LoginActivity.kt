@@ -14,13 +14,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import java.util.concurrent.TimeUnit
 
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var image: ImageView
     private var selectedImageUri: Uri? = null
-
+    private lateinit var header: Header
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -39,6 +40,16 @@ class LoginActivity : AppCompatActivity() {
         return sigIntexts
     }
 
+    public override fun onPause() {
+        super.onPause()
+        header.onPause()
+    }
+
+    public override fun onResume() {
+        super.onResume()
+       header.onResume()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -49,10 +60,11 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        header = findViewById<Header>(R.id.header)
 
         val sharedPrefs = getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
 
-        var  isIn  = sharedPrefs.getBoolean("IS_LOGGED_IN", false)
+        val  isIn  = sharedPrefs.getBoolean("IS_LOGGED_IN", false)
         if (isIn){
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
