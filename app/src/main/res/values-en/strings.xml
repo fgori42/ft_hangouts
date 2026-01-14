@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ft_hanguots</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="name_hint">First Name</string>
+    <string name="password_hint">Password</string>
+    <string name="surname_hint">Last Name</string>
+    <string name="email_hint">Email</string>
+    <string name="phone_hint">Phone</string>
+    <string name="address_hint">Address</string>
+    <string name="contact_image_description">Contact Image</string>
+    <string name="login_hint">Log In</string>
+    <string name="sigin_hint">Sign Up</string>
+    <string name="return_text">Go Back</string>
+    <string name="setting">Settings</string>
+    <string name="chat">message...</string>
+    <string name="backText">application has been put in the background</string>
+    <string name="backText2">for</string>
+    <string name="backText3">seconds</string>
+    <string name="ita">Italian</string>
+    <string name="eng">English</string>
+    <string name="profileSetting">Edit Profile</string>
+</resources>

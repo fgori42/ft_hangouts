@@ -90,6 +90,7 @@ class CreateContactActivity : AppCompatActivity() {
         val dbHelper = DatabaseHelper(this)
         val listOfText = createContactList()
         returnBtm.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
 
@@ -113,6 +114,7 @@ class CreateContactActivity : AppCompatActivity() {
                 listOfText[4].text.toString(),
                 selectedImageUri?.toString() ?: "")
             dbHelper.addContact(newContact)
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
 

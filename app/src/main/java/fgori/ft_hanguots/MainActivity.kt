@@ -50,11 +50,6 @@ class MainActivity : AppCompatActivity() {
         val button3 = findViewById<Button>(R.id.button3)
         val button4 = findViewById<Button>(R.id.button4)
 
-        val buttonRed = findViewById<Button>(R.id.red)
-        val buttonBlu = findViewById<Button>(R.id.blu)
-        val buttonGreen = findViewById<Button>(R.id.green)
-
-
 
         button.setOnClickListener {
             if (button2.isVisible) {
@@ -68,22 +63,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        button4.setOnClickListener {
+            startActivity(Intent(this, option::class.java))
+            finish()
+        }
+
+
         button2.setOnClickListener {
             startActivity(Intent(this, CreateContactActivity::class.java))
-
-        }
-
-        buttonGreen.setOnClickListener {
-            header.changeColor("#00FF00")
-
-        }
-        buttonRed.setOnClickListener {
-            header.changeColor("#FF0000")
-
-        }
-        buttonBlu.setOnClickListener {
-            header.changeColor("#0000FF")
-
+            finish()
         }
 
     }

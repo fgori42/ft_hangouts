@@ -171,5 +171,10 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show()
             }
         }
+        val switchButton = findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switch2)
+        switchButton.setOnCheckedChangeListener { _, isChecked ->
+
+            }
+
     }
 }

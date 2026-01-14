@@ -168,6 +168,10 @@ class Header : FrameLayout {
 
     }
 
+    public fun getHeaderColor() : String
+    {
+        return headerColor
+    }
 
 
 }
