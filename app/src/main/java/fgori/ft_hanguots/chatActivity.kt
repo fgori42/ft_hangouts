@@ -12,12 +12,11 @@ import android.widget.EditText
 
 
 
-class chatActivity() : AppCompatActivity() {
-    private val dbhelper = DatabaseHelper(this)
+class chatActivity() : BaseActivity() {
+
     private lateinit var messageRecyclerView: RecyclerView // Correct
     private lateinit var messageList : MutableList<Message>
     private lateinit var messageAdapter: MessageAdapter
-    private lateinit var header: Header
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +26,7 @@ class chatActivity() : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
         header = findViewById<Header>(R.id.header)
         header.notifyActivityChanged("ChatActivity")
-        val contact = dbhelper.getIdContact(contactId)
+        val contact = dbHelper.getIdContact(contactId)
         if (contact != null) {
             header.populateChatHeader(contact)
         }else{
@@ -46,7 +45,7 @@ class chatActivity() : AppCompatActivity() {
         messageRecyclerView = findViewById(R.id.messageList)
         messageRecyclerView.layoutManager = LinearLayoutManager(this)
         if (contactId != -1L) {
-            messageList = dbhelper.getIdList(contactId)
+            messageList = dbHelper.getIdList(contactId)
         }else{
             messageList = mutableListOf()
         }
@@ -59,7 +58,7 @@ class chatActivity() : AppCompatActivity() {
             val message = chatText.text.toString()
             if (message.isNotEmpty()) {
                 val newMessage = Message(MsgDir.OUT, message, contactId)
-                dbhelper.addMessage(newMessage)
+                dbHelper.addMessage(newMessage)
                 messageList.add(newMessage)
 
                 messageAdapter.notifyItemInserted(messageList.size - 1)
@@ -70,14 +69,4 @@ class chatActivity() : AppCompatActivity() {
         }
 
     }
-    public override fun onPause(){
-        super.onPause()
-        header.onPause()
-    }
-
-    public override fun onResume() {
-        super.onResume()
-        header.onResume()
-    }
-
 }

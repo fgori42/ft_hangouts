@@ -16,10 +16,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
-class CreateContactActivity : AppCompatActivity() {
+class CreateContactActivity : BaseActivity() {
     private lateinit var image: ImageView
     private var selectedImageUri: Uri? = null
-    private lateinit var header: Header
 
 
     private fun saveImageToInternalStorage(uri: Uri): Uri? {
@@ -61,16 +60,6 @@ class CreateContactActivity : AppCompatActivity() {
         return list
     }
 
-    public override fun onPause() {
-        super.onPause()
-        header.onPause()
-    }
-
-    public override fun onResume() {
-        super.onResume()
-        header.onResume()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -87,7 +76,6 @@ class CreateContactActivity : AppCompatActivity() {
 
         val saveBtm = findViewById<View>(R.id.saveBtm)
         val returnBtm = findViewById<View>(R.id.returnBtm)
-        val dbHelper = DatabaseHelper(this)
         val listOfText = createContactList()
         returnBtm.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))

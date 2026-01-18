@@ -17,11 +17,10 @@ import androidx.core.view.isVisible
 import java.util.concurrent.TimeUnit
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     private lateinit var image: ImageView
     private var selectedImageUri: Uri? = null
-    private lateinit var header: Header
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -40,16 +39,6 @@ class LoginActivity : AppCompatActivity() {
         return sigIntexts
     }
 
-    public override fun onPause() {
-        super.onPause()
-        header.onPause()
-    }
-
-    public override fun onResume() {
-        super.onResume()
-       header.onResume()
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -62,7 +51,6 @@ class LoginActivity : AppCompatActivity() {
         }
         header = findViewById<Header>(R.id.header)
 
-        val sharedPrefs = getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
 
         val  isIn  = sharedPrefs.getBoolean("IS_LOGGED_IN", false)
         if (isIn){
@@ -109,7 +97,6 @@ class LoginActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
-                val sharedPrefs = getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
                 val editor = sharedPrefs.edit()
 
                 editor.putString("USER_NAME", name)
@@ -153,7 +140,6 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val sharedPrefs = getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
             val savedName = sharedPrefs.getString("USER_NAME", "")
             val savedPassword = sharedPrefs.getString("USER_PASSWORD", "")
 
@@ -172,9 +158,16 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         val switchButton = findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switch2)
+        val editor = sharedPrefs.edit()
         switchButton.setOnCheckedChangeListener { _, isChecked ->
-
+            if (isChecked) {
+                editor.putString("USER_LANGUAGE", "en").apply()
+            } else {
+                editor.putString("USER_LANGUAGE", "it").apply()
             }
+
+        }
+
 
     }
 }
