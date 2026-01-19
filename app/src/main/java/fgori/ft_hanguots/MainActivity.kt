@@ -73,9 +73,13 @@ class MainActivity : BaseActivity() {
             finish()
         }
 
+        loadContactsFromDatabase()
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        loadContactsFromDatabase()
+    }
 
     private fun loadContactsFromDatabase() {
         val dbHelper = DatabaseHelper(this)

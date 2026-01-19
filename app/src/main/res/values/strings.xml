@@ -18,6 +18,7 @@
     <string name="backText">applicazione e` stata messa in background </string>
     <string name="backText2"> per </string>
     <string name="backText3"> secondi</string>
+    <string name="newProfile">nuovo contatto</string>
     <string name="ita">Italiano</string>
     <string name="eng">English</string>
     <string name="profileSetting">modifica profilo</string>

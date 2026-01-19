@@ -19,6 +19,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import java.util.concurrent.TimeUnit
+import androidx.core.graphics.ColorUtils
 
 interface HeaderListener{
     fun onActivityChanged(activity: String)
@@ -151,6 +152,11 @@ class Header : FrameLayout {
         editor.putString("USER_COLOR", newColor)
         editor.apply()
         headerColor = newColor
+        val headerText = findViewById<TextView>(R.id.header_text)
+        if (ColorUtils.calculateLuminance(Color.parseColor(newColor)) < 0.5)
+            headerText.setTextColor(Color.WHITE)
+        else
+            headerText.setTextColor(Color.BLACK)
         applyNewColor()
     }
 
@@ -160,7 +166,6 @@ class Header : FrameLayout {
 
         LayoutInflater.from(context).inflate(R.layout.sample_header_layout, this, true)
         val sharedPrefs by lazy { context.getSharedPreferences("UserProfile", Context.MODE_PRIVATE) }
-        val editor = sharedPrefs.edit()
         val color = sharedPrefs.getString("USER_COLOR", "@color/light_blue_400")
         headerColor = color ?: "@color/light_blue_400"
         applyNewColor()

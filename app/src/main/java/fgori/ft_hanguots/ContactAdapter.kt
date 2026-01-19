@@ -1,5 +1,8 @@
 package fgori.ft_hanguots
 
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -35,9 +38,22 @@ class ContactAdapter (private val contactList: List<Contact>, private val onItem
         holder.itemView.setOnClickListener {
             onItemClick(currentContact)
         }
+
+        val sharedPreference = holder.itemView.context.getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
+        val colorString = sharedPreference.getString("USER_COLOR", "#2196F3") // Colore di default
+
+        val background = holder.itemView.background.mutate()
+        if (background is GradientDrawable) {
+            try {
+                val color = Color.parseColor(colorString)
+                background.colors = intArrayOf(color, Color.TRANSPARENT)
+            } catch (e: IllegalArgumentException) {
+                val color = Color.parseColor("#2196F3")
+                background.colors = intArrayOf(color, Color.TRANSPARENT) // Fallback
+            }
+        }
     }
     override fun getItemCount(): Int {
         return contactList.size
     }
 }
-

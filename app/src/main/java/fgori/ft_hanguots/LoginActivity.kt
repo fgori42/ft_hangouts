@@ -158,12 +158,14 @@ class LoginActivity : BaseActivity() {
             }
         }
         val switchButton = findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switch2)
+        if (sharedPrefs.getString("USER_LANGUAGE", "default") == "en")
+            switchButton.isChecked = true
         val editor = sharedPrefs.edit()
         switchButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 editor.putString("USER_LANGUAGE", "en").apply()
             } else {
-                editor.putString("USER_LANGUAGE", "it").apply()
+                editor.putString("USER_LANGUAGE", "default").apply()
             }
 
         }

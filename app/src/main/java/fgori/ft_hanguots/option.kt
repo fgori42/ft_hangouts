@@ -14,9 +14,7 @@ import android.content.Intent
 
 
 
-class option : AppCompatActivity() {
-    private lateinit var header: Header
-
+class option : BaseActivity() {
     private fun retSeeker(redBar: SeekBar, greenBar: SeekBar, blueBar: SeekBar) {
         var color = header.getHeaderColor()
         color = color.removePrefix("#")
@@ -32,7 +30,6 @@ class option : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_option)
-        header = findViewById<Header>(R.id.header)
         header.notifyActivityChanged("OptionActivity")
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -65,6 +62,17 @@ class option : AppCompatActivity() {
         redBar.setOnSeekBarChangeListener(colorChangeListener)
         greenBar.setOnSeekBarChangeListener(colorChangeListener)
         blueBar.setOnSeekBarChangeListener(colorChangeListener)
+
+        val switchButton = findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switch2)
+        val editor = sharedPrefs.edit()
+        switchButton.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                editor.putString("USER_LANGUAGE", "en").apply()
+            } else {
+                editor.putString("USER_LANGUAGE", "default").apply()
+            }
+
+        }
     }
 
     override fun onPause() {

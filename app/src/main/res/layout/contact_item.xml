@@ -8,13 +8,19 @@
     android:gravity="center_vertical"
     android:clickable="true"
     android:focusable="true"
-    android:background="?attr/selectableItemBackground">
+    android:foreground="?attr/selectableItemBackground"
+    android:background="@drawable/background_contact_list"
+    android:layout_marginBottom="8dp"
+   >
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/contact_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_launcher_foreground" /> <!-- Immagine placeholder -->
+        android:background="@drawable/mask_circle"
+        android:src="@drawable/ic_launcher_foreground"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
     <TextView
         android:id="@+id/contact_name"
