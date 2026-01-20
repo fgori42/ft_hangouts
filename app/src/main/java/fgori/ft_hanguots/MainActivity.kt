@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.activity.result.contract.ActivityResultContracts
 
 
 class MainActivity : BaseActivity() {
@@ -20,13 +21,10 @@ class MainActivity : BaseActivity() {
     private var contactList: MutableList<SmartContact> = mutableListOf()
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        header = findViewById(R.id.header)
         header.notifyActivityChanged("MainActivity")
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -37,11 +35,12 @@ class MainActivity : BaseActivity() {
 
         contactRecyclerView = findViewById(R.id.contactList)
         contactRecyclerView.layoutManager = LinearLayoutManager(this)
+
         contactAdapter = ContactAdapter(contactList){contact ->
             val intent = Intent(this, chatActivity::class.java)
             intent.putExtra("contactId", contact.id)
             isInChild = true
-            startActivity(intent)
+            activityLauncher.launch(intent)
         }
         contactRecyclerView.adapter = contactAdapter
 
@@ -66,13 +65,13 @@ class MainActivity : BaseActivity() {
         }
 
         button4.setOnClickListener {
-            startActivity(Intent(this, option::class.java))
+            activityLauncher.launch(Intent(this, option::class.java))
             isInChild = true
         }
 
 
         button2.setOnClickListener {
-            startActivity(Intent(this, CreateContactActivity::class.java))
+            activityLauncher.launch(Intent(this, CreateContactActivity::class.java))
             isInChild = true
         }
 
@@ -96,6 +95,10 @@ class MainActivity : BaseActivity() {
         contactList.clear()
         contactList.addAll(updatedContactList)
         contactAdapter.notifyDataSetChanged()
+    }
+
+    private val activityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        recreate()
     }
 
 }

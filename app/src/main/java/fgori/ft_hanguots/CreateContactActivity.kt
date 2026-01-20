@@ -78,7 +78,7 @@ class CreateContactActivity : BaseActivity() {
         val returnBtm = findViewById<View>(R.id.returnBtm)
         val listOfText = createContactList()
         returnBtm.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+           finish()
         }
 
         saveBtm.setOnClickListener {
@@ -101,7 +101,7 @@ class CreateContactActivity : BaseActivity() {
                 listOfText[4].text.toString(),
                 selectedImageUri?.toString() ?: "")
             dbHelper.addContact(newContact)
-            startActivity(Intent(this, MainActivity::class.java))
+
             finish()
         }
 
