@@ -31,7 +31,6 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
     }
     
     override fun onCreate(db: SQLiteDatabase) {
-        // --- 1. Creazione Tabella Contatti ---
         val CREATE_CONTACTS_TABLE = "CREATE TABLE $TABLE_CONTACTS (" +
                 "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$COLUMN_NAME TEXT NOT NULL," +
@@ -41,8 +40,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
                 "$COLUMN_ADDRESS TEXT," +
                 "$COLUMN_IMAGE_URI TEXT)"
         db.execSQL(CREATE_CONTACTS_TABLE)
-        
-        // --- 2. Creazione Tabella Messaggi (CON TIMESTAMP COME NUMERO) ---
+
         val CREATE_MESSAGES_TABLE = "CREATE TABLE $TABLE_MESSAGES (" +
                 "$COLUMN_MESSAGE_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$COLUMN_MESSAGE_CONTENT TEXT NOT NULL," +
@@ -95,12 +93,10 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
     
     fun getContacts(): List<Contact> {
         val contactList = mutableListOf<Contact>()
-        // Ordiniamo i contatti per nome in ordine ascendente
         val selectQuery = "SELECT * FROM $TABLE_CONTACTS ORDER BY $COLUMN_NAME ASC"
         val db = this.readableDatabase
         val cursor = db.rawQuery(selectQuery, null)
 
-        // Itera su ogni riga del cursore e crea un oggetto Contact
         if (cursor.moveToFirst()) {
             do {
                 val contact = Contact(
@@ -165,6 +161,49 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
 
         return messageList
+    }
+
+    fun getListLastChat(): MutableList<SmartContact> {
+        val contactList = mutableListOf<SmartContact>()
+        val db = this.readableDatabase
+        val selectQuery = """
+            SELECT
+                c.$COLUMN_ID,
+                c.$COLUMN_NAME,
+                c.$COLUMN_SURNAME,
+                c.$COLUMN_PHONE,
+                c.$COLUMN_EMAIL,
+                c.$COLUMN_ADDRESS,
+                c.$COLUMN_IMAGE_URI,
+                m.$COLUMN_MESSAGE_CONTENT,
+                m.$COLUMN_MESSAGE_TIMESTAMP
+            FROM
+                $TABLE_CONTACTS c
+            JOIN
+                $TABLE_MESSAGES m ON c.$COLUMN_ID = m.$COLUMN_MESSAGE_CONTACT_ID
+            WHERE
+                m.$COLUMN_MESSAGE_TIMESTAMP = (
+                    SELECT MAX(m2.$COLUMN_MESSAGE_TIMESTAMP)
+                    FROM $TABLE_MESSAGES m2
+                    WHERE m2.$COLUMN_MESSAGE_CONTACT_ID = c.$COLUMN_ID
+                )
+            ORDER BY
+                    m.$COLUMN_MESSAGE_TIMESTAMP DESC 
+        """
+        val cursor = db.rawQuery(selectQuery, null)
+        if (cursor.moveToFirst()) {
+            do{
+                val contact = SmartContact(
+                    cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_ID)),)
+                contact.name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME))
+                contact.LastMsg = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MESSAGE_CONTENT))
+                contact.time = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_MESSAGE_TIMESTAMP))
+                contactList.add(contact)
+            }while(cursor.moveToNext())
+        }
+        cursor.close()
+        db.close()
+        return contactList
     }
 
 }

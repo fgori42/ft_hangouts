@@ -9,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.widget.EditText
-
+import android.content.Intent
 
 
 class chatActivity() : BaseActivity() {
@@ -69,4 +69,6 @@ class chatActivity() : BaseActivity() {
         }
 
     }
+
+
 }

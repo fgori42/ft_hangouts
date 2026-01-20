@@ -17,7 +17,9 @@ class MainActivity : BaseActivity() {
 
     private lateinit var contactRecyclerView: RecyclerView
     private lateinit var contactAdapter: ContactAdapter
-    private var contactList: MutableList<Contact> = mutableListOf()
+    private var contactList: MutableList<SmartContact> = mutableListOf()
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +40,7 @@ class MainActivity : BaseActivity() {
         contactAdapter = ContactAdapter(contactList){contact ->
             val intent = Intent(this, chatActivity::class.java)
             intent.putExtra("contactId", contact.id)
+            isInChild = true
             startActivity(intent)
         }
         contactRecyclerView.adapter = contactAdapter
@@ -64,26 +67,32 @@ class MainActivity : BaseActivity() {
 
         button4.setOnClickListener {
             startActivity(Intent(this, option::class.java))
-            finish()
+            isInChild = true
         }
 
 
         button2.setOnClickListener {
             startActivity(Intent(this, CreateContactActivity::class.java))
-            finish()
+            isInChild = true
         }
 
         loadContactsFromDatabase()
     }
 
+    override fun onPause() {
+        super.onPause()
+    }
     override fun onResume() {
         super.onResume()
+        if (isInChild) {
+            isInChild = false
+        }
         loadContactsFromDatabase()
     }
 
     private fun loadContactsFromDatabase() {
         val dbHelper = DatabaseHelper(this)
-        val updatedContactList = dbHelper.getContacts()
+        val updatedContactList = dbHelper.getListLastChat()
         contactList.clear()
         contactList.addAll(updatedContactList)
         contactAdapter.notifyDataSetChanged()

@@ -10,13 +10,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class ContactAdapter (private val contactList: List<Contact>, private val onItemClick :(Contact) -> Unit) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>()
+class ContactAdapter (private val contactList: List<SmartContact>, private val onItemClick :(SmartContact) -> Unit) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>()
 {
     class ContactViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
         val contactImage: ImageView = itemView.findViewById(R.id.contact_image)
         val contactName: TextView = itemView.findViewById(R.id.contact_name)
+        val LastMsg: TextView = itemView.findViewById(R.id.LastMsg)
+        val time: TextView = itemView.findViewById(R.id.time)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder
     {
@@ -27,14 +32,20 @@ class ContactAdapter (private val contactList: List<Contact>, private val onItem
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
         val currentContact = contactList[position]
 
-        holder.contactName.text = currentContact.getValue("name")
-        val imageUri = currentContact.getValue("img")
+        holder.contactName.text = currentContact.name
+        val imageUri = currentContact.img
         if (!imageUri.isNullOrEmpty()) {
             val uri = Uri.parse(imageUri)
             holder.contactImage.setImageURI(uri)
         }else{
             holder.contactImage.setImageResource(R.drawable.ic_launcher_foreground)
         }
+        holder.LastMsg.text = currentContact.LastMsg
+        val timeToUse = Date(currentContact.time)
+        val format = SimpleDateFormat("HH:mm  dd/MM", Locale.getDefault())
+
+        holder.time.text = format.format(timeToUse)
+
         holder.itemView.setOnClickListener {
             onItemClick(currentContact)
         }

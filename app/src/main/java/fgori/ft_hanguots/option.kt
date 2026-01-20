@@ -10,20 +10,22 @@ import android.widget.Button
 import fgori.ft_hanguots.Header
 import fgori.ft_hanguots.R
 import android.content.Intent
+import android.graphics.Color
 
 
 
 
 class option : BaseActivity() {
     private fun retSeeker(redBar: SeekBar, greenBar: SeekBar, blueBar: SeekBar) {
-        var color = header.getHeaderColor()
-        color = color.removePrefix("#")
-        val red = color.substring(0, 2).toInt(16)
-        val blue = color.substring(5, 6).toInt(16)
-        val green = color.substring(2, 4).toInt(16)
-        redBar.progress = red
-        blueBar.progress = blue
-        greenBar.progress = green
+        val colorString = header.getHeaderColor()
+        val colorInt = try {
+            Color.parseColor(colorString)
+        } catch (e: IllegalArgumentException) {
+            Color.parseColor("#2196F3")
+        }
+        redBar.progress = Color.red(colorInt)
+        greenBar.progress = Color.green(colorInt)
+        blueBar.progress = Color.blue(colorInt)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +46,6 @@ class option : BaseActivity() {
 
         buttonHome.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
             finish()
         }
         retSeeker(redBar, greenBar, blueBar)
@@ -65,6 +66,8 @@ class option : BaseActivity() {
 
         val switchButton = findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switch2)
         val editor = sharedPrefs.edit()
+        if (sharedPrefs.getString("USER_LANGUAGE", "default") == "en")
+            switchButton.isChecked = true
         switchButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 editor.putString("USER_LANGUAGE", "en").apply()

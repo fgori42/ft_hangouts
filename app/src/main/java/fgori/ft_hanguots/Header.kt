@@ -20,6 +20,8 @@ import android.widget.TextView
 import android.widget.Toast
 import java.util.concurrent.TimeUnit
 import androidx.core.graphics.ColorUtils
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 interface HeaderListener{
     fun onActivityChanged(activity: String)
@@ -53,11 +55,9 @@ class Header : FrameLayout {
     public fun onResume() {
         if (toastTime > 0) {
             val durationMillis = System.currentTimeMillis() - toastTime
-            if (durationMillis >= 1000) { // Mostra il toast solo se è passato almeno un secondo
-                val hours = TimeUnit.MILLISECONDS.toHours(durationMillis)
-                val minutes = TimeUnit.MILLISECONDS.toMinutes(durationMillis) % 60
-                val seconds = TimeUnit.MILLISECONDS.toSeconds(durationMillis) % 60
-                val formattedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+            if (durationMillis >= 1000) {
+                val format = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+                val formattedTime = format.format(toastTime)
                 val totalSeconds = TimeUnit.MILLISECONDS.toSeconds(durationMillis)
 
                 val text =
@@ -153,7 +153,7 @@ class Header : FrameLayout {
         editor.apply()
         headerColor = newColor
         val headerText = findViewById<TextView>(R.id.header_text)
-        if (ColorUtils.calculateLuminance(Color.parseColor(newColor)) < 0.5)
+        if (ColorUtils.calculateLuminance(Color.parseColor(newColor)) < 0.6)
             headerText.setTextColor(Color.WHITE)
         else
             headerText.setTextColor(Color.BLACK)

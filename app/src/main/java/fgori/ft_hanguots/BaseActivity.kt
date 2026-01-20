@@ -13,6 +13,7 @@ abstract class BaseActivity : AppCompatActivity() {
     protected lateinit var header: Header
     protected lateinit var dbHelper: DatabaseHelper
     protected lateinit var sharedPrefs: SharedPreferences
+    protected var isInChild: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +27,8 @@ abstract class BaseActivity : AppCompatActivity() {
     }
     override fun onPause() {
         super.onPause()
-        header.onPause()
+        if (!isInChild)
+            header.onPause()
     }
 
     override fun onResume() {

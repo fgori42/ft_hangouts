@@ -79,7 +79,6 @@ class CreateContactActivity : BaseActivity() {
         val listOfText = createContactList()
         returnBtm.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
-            finish()
         }
 
         saveBtm.setOnClickListener {

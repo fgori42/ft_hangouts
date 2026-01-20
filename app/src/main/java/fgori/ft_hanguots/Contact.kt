@@ -4,7 +4,13 @@ package fgori.ft_hanguots
 import java.lang.IllegalArgumentException
 
 
+class SmartContact(public val id : Long) {
+    var name: String = ""
+    var img: String = ""
+    var LastMsg: String = ""
+    var time: Long = 0
 
+}
 class Contact(public val id : Long) {
     private var name: String = ""
     private var surname: String = ""
@@ -57,10 +63,5 @@ class Contact(public val id : Long) {
              "address" -> address = newValue
              "img" -> img = newValue
         }
-    }
-    
-    fun addMessage(message: Message, contact: Contact)
-    {
-
     }
 }
