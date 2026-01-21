@@ -51,7 +51,7 @@ class ContactAdapter (private val contactList: List<SmartContact>, private val o
         }
 
         val sharedPreference = holder.itemView.context.getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
-        val colorString = sharedPreference.getString("USER_COLOR", "#2196F3") // Colore di default
+        val colorString = sharedPreference.getString("USER_COLOR", "#2196F3")
 
         val background = holder.itemView.background.mutate()
         if (background is GradientDrawable) {

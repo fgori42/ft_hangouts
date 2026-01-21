@@ -69,6 +69,11 @@ class MainActivity : BaseActivity() {
             isInChild = true
         }
 
+        button3.setOnClickListener {
+            activityLauncher.launch(Intent(this, contactDisplayActivity::class.java))
+            isInChild = true
+        }
+
 
         button2.setOnClickListener {
             activityLauncher.launch(Intent(this, CreateContactActivity::class.java))
