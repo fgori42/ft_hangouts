@@ -22,5 +22,6 @@
     <string name="ita">Italiano</string>
     <string name="eng">English</string>
     <string name="profileSetting">modifica profilo</string>
+    <string name="nothingChange">nessuna modifica effettuata</string>
 
 </resources>

@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ft_hanguots2">
         <activity
+            android:name=".UpdateContactActivity"
+            android:exported="false" />
+        <activity
             android:name=".contactDisplayActivity"
             android:exported="false" />
         <activity
@@ -25,7 +28,7 @@
         </activity>
         <activity
             android:name=".BaseActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".option"
             android:exported="false" />
@@ -35,7 +38,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".CreateContactActivity"
             android:exported="false" />

@@ -11,9 +11,8 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         private const val DATABASE_NAME = "ft_hangouts.db"
         private const val DATABASE_VERSION = 1
 
-        // --- Tabella Contatti ---
         const val TABLE_CONTACTS = "contacts"
-        const val COLUMN_ID = "_id" // Nome standard per la chiave primaria
+        const val COLUMN_ID = "_id"
         const val COLUMN_NAME = "name"
         const val COLUMN_SURNAME = "surname"
         const val COLUMN_PHONE = "phone"
@@ -21,7 +20,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         const val COLUMN_ADDRESS = "address"
         const val COLUMN_IMAGE_URI = "image_uri"
 
-        // --- Tabella Messaggi ---
+
         const val TABLE_MESSAGES = "messages"
         const val COLUMN_MESSAGE_ID = "_id"
         const val COLUMN_MESSAGE_CONTENT = "content"
@@ -52,8 +51,8 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS $TABLE_MESSAGES") // Prima i messaggi
-        db.execSQL("DROP TABLE IF EXISTS $TABLE_CONTACTS") // Poi i contatti
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_MESSAGES")
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_CONTACTS")
         onCreate(db)
     }
 
@@ -204,6 +203,23 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         cursor.close()
         db.close()
         return contactList
+    }
+
+    fun upDateContact(contact: Contact, id: Long) {
+        val db = this.writableDatabase
+        if (id == -1L) return
+        val values = ContentValues().apply {
+            put(COLUMN_NAME, contact.getValue("name"))
+            put(COLUMN_SURNAME, contact.getValue("surname"))
+            put(COLUMN_PHONE, contact.getValue("phone"))
+            put(COLUMN_EMAIL, contact.getValue("email"))
+            put(COLUMN_ADDRESS, contact.getValue("address"))
+            put(COLUMN_IMAGE_URI, contact.getValue("img"))
+        }
+        val whereClause = "$COLUMN_ID = ?"
+        val whereArgs = arrayOf(id.toString())
+        db.update(TABLE_CONTACTS, values, whereClause, whereArgs)
+        db.close()
     }
 
 }
