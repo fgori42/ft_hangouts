@@ -43,10 +43,16 @@ class option : BaseActivity() {
         val greenBar = findViewById<SeekBar>(R.id.seekBarGreen)
         val blueBar = findViewById<SeekBar>(R.id.seekBarBlu)
         val buttonHome = findViewById<Button>(R.id.buttonHome)
+        val buttonProfile = findViewById<Button>(R.id.button5)
 
         buttonHome.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
             finish()
+        }
+        buttonProfile.setOnClickListener {
+            val intent = Intent(this, UpdateContactActivity::class.java)
+            intent.putExtra("contactId", -1L)
+            isInChild = true
+            startActivity(intent)
         }
         retSeeker(redBar, greenBar, blueBar)
 
@@ -78,13 +84,9 @@ class option : BaseActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        header.onPause()
-    }
 
     override fun onResume() {
         super.onResume()
-        header.onResume()
+        isInChild = false
     }
 }

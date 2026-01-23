@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Banda Superiore: altezza fissa per controllo totale -->
         <FrameLayout
             android:id="@+id/top_band"
             android:layout_width="match_parent"
@@ -25,8 +24,7 @@
                 android:textStyle="bold" />
         </FrameLayout>
 
-        <!-- Parte Chat: compare solo quando serve e occupa 100dp -->
-        <RelativeLayout
+      <RelativeLayout
             android:id="@+id/chatHeader"
             android:layout_width="match_parent"
             android:layout_height="100dp"
@@ -39,7 +37,9 @@
                 android:layout_height="60dp"
                 android:layout_marginStart="36dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/background_circle">
+                android:background="@drawable/background_circle"
+                android:src="@drawable/ic_launcher_foreground"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full">
 
                 <ImageView
                     android:id="@+id/contactImg"
@@ -49,27 +49,50 @@
                     tools:srcCompat="@tools:sample/avatars"
                     android:background="@drawable/background_circle"/>
             </FrameLayout>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginStart="16dp"
+              android:layout_marginEnd="16dp"
+              android:layout_toEndOf="@id/imageContainer"
+              android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="120dp"
-                android:layout_centerVertical="true"
-                android:orientation="vertical">
+              <LinearLayout
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/contactName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="nome contatto" />
+                  <TextView
+                      android:id="@+id/contactName"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="18sp"
+                      android:textStyle="bold"
+                      android:textColor="@android:color/black"
+                      tools:text="Nome Contatto Molto Lungo" />
 
-                <TextView
-                    android:id="@+id/contactPhone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="numero" />
-            </LinearLayout>
+                  <TextView
+                      android:id="@+id/contactPhone"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="4dp"
+                      android:textSize="14sp"
+                      tools:text="1234567890" />
 
+              </LinearLayout>
+
+              <ImageButton
+                  android:id="@+id/editContactButton"
+                  android:layout_width="30dp"
+                  android:layout_height="30dp"
+                  android:layout_gravity="center_vertical"
+                  android:background="?attr/selectableItemBackgroundBorderless"
+                  android:src="@drawable/outline_build_circle"
+                  android:contentDescription="Modifica contatto" />
+
+          </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
 

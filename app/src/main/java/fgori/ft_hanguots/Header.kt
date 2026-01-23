@@ -104,6 +104,13 @@ class Header : FrameLayout {
         } else {
             contactImg?.setImageResource(R.drawable.ic_launcher_foreground)
         }
+        val editBtn = findViewById<View>(R.id.editContactButton)
+        editBtn?.setOnClickListener {
+            val intent = android.content.Intent(context, UpdateContactActivity::class.java)
+            intent.putExtra("contactId", contact.id)
+            context.startActivity(intent)
+
+        }
     }
     private fun setChat() {
         val chatHeader = findViewById<View>(R.id.chatHeader)
@@ -140,7 +147,11 @@ class Header : FrameLayout {
 
         val chatHeader = findViewById<View>(R.id.chatHeader)
         chatHeader?.background = gradient
-
+        val headerText = findViewById<TextView>(R.id.header_text)
+        if (ColorUtils.calculateLuminance(Color.parseColor(headerColor)) < 0.6)
+            headerText.setTextColor(Color.WHITE)
+        else
+            headerText.setTextColor(Color.BLACK)
 
 
     }
