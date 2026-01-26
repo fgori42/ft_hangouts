@@ -12,6 +12,12 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.activity.result.contract.ActivityResultContracts
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.widget.ImageButton
+import android.widget.SearchView
+import android.widget.Toast
+import androidx.core.graphics.toColorInt
 
 
 class MainActivity : BaseActivity() {
@@ -35,15 +41,36 @@ class MainActivity : BaseActivity() {
 
         contactRecyclerView = findViewById(R.id.contactList)
         contactRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        contactAdapter = ContactAdapter(contactList, header.textColor){contact ->
+        contactList = dbHelper.getListLastChat().toMutableList()
+        contactAdapter = ContactAdapter(contactList.toMutableList(), header.textColor){contact ->
             val intent = Intent(this, chatActivity::class.java)
             intent.putExtra("contactId", contact.id)
             isInChild = true
             activityLauncher.launch(intent)
         }
         contactRecyclerView.adapter = contactAdapter
+        val searchBar = findViewById<SearchView>(R.id.search_view)
+        val searchLayout = findViewById<View>(R.id.searchbarContainer)
+        val opBtn = findViewById<ImageButton>(R.id.option_button)
+        opBtn.colorFilter = android.graphics.PorterDuffColorFilter(header.textColor, android.graphics.PorterDuff.Mode.SRC_IN)
 
+        searchLayout.setBackgroundColor( Color.parseColor(header.getHeaderColor()))
+        val searchBarMargin = searchBar.background.mutate()
+        if (searchBarMargin is GradientDrawable) {
+            val borderWidth = (2 * resources.displayMetrics.density).toInt()
+            searchBarMargin.setStroke(borderWidth,header.textColor)
+        }
+
+        searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(text: String?): Boolean {
+                filterContact(text)
+                return true
+            }
+
+            override fun onQueryTextSubmit(text: String?): Boolean {
+                return false
+            }
+        })
 
 
         val button = findViewById<Button>(R.id.button)
@@ -80,7 +107,20 @@ class MainActivity : BaseActivity() {
             isInChild = true
         }
 
-        loadContactsFromDatabase()
+//        loadContactsFromDatabase()
+    }
+    private fun filterContact(text: String?) {
+        val filtedList = mutableListOf<SmartContact>()
+        if (text.isNullOrEmpty())
+            filtedList.addAll(contactList)
+        else {
+            for (contact in contactList) {
+                if (contact.name.lowercase().contains(text.lowercase())) {
+                    filtedList.add(contact)
+                }
+            }
+        }
+        contactAdapter.updateData(filtedList)
     }
 
     override fun onPause() {
@@ -91,16 +131,16 @@ class MainActivity : BaseActivity() {
         if (isInChild) {
             isInChild = false
         }
-        loadContactsFromDatabase()
+//        loadContactsFromDatabase()
     }
 
-    private fun loadContactsFromDatabase() {
-        val dbHelper = DatabaseHelper(this)
-        val updatedContactList = dbHelper.getListLastChat()
-        contactList.clear()
-        contactList.addAll(updatedContactList)
-        contactAdapter.notifyDataSetChanged()
-    }
+//    private fun loadContactsFromDatabase() {
+//        val dbHelper = DatabaseHelper(this)
+//        val updatedContactList = dbHelper.getListLastChat()
+//        contactList.clear()
+//        contactList.addAll(updatedContactList)
+//        contactAdapter.notifyDataSetChanged()
+//    }
 
     private val activityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         recreate()

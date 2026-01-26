@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ContactAdapter (private val contactList: List<SmartContact>, private val textColor: Int, private val onItemClick :(SmartContact) -> Unit) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>()
+class ContactAdapter (private val contactList: MutableList<SmartContact>, private val textColor: Int, private val onItemClick :(SmartContact) -> Unit) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>()
 {
     class ContactViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
@@ -72,5 +72,12 @@ class ContactAdapter (private val contactList: List<SmartContact>, private val t
     }
     override fun getItemCount(): Int {
         return contactList.size
+    }
+
+    fun updateData(filteredList: List<SmartContact>)
+    {
+        contactList.clear()
+        contactList.addAll(filteredList)
+        notifyDataSetChanged()
     }
 }
