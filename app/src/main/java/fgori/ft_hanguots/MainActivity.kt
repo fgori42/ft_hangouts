@@ -36,7 +36,7 @@ class MainActivity : BaseActivity() {
         contactRecyclerView = findViewById(R.id.contactList)
         contactRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        contactAdapter = ContactAdapter(contactList){contact ->
+        contactAdapter = ContactAdapter(contactList, header.textColor){contact ->
             val intent = Intent(this, chatActivity::class.java)
             intent.putExtra("contactId", contact.id)
             isInChild = true

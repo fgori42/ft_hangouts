@@ -15,7 +15,8 @@ import android.text.TextWatcher
 import android.text.Editable
 import android.widget.Button
 import android.widget.Toast
-import java.util.jar.Attributes
+import android.content.Intent
+import android.content.Context
 
 class UpdateContactActivity : BaseActivity() {
 
@@ -34,30 +35,26 @@ class UpdateContactActivity : BaseActivity() {
         val contactId = intent.getLongExtra("contactId", -1L)
         var contact : Contact? = null
         var isChange: Boolean = false
-        header.notifyActivityChanged("UpdateContactActivity")
         enableEdgeToEdge()
         setContentView(R.layout.activity_update_contact)
+        header.notifyActivityChanged("UpdateContactActivity")
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        if (contactId > 0) {
+        if (contactId != -1L) {
             contact = dbHelper.getIdContact(contactId)
                 if(contact == null){
                     Toast.makeText(this, "Contatto non trovato", Toast.LENGTH_SHORT).show()
                     finish()
                     return
+                }
             }
-        } else {
-            contact = Contact(0, "", "", "", "", "", "")
-            contact.setValue(sharedPrefs.getString("name", "")!!, "name")
-            contact.setValue(sharedPrefs.getString("surname", "")!!, "surname")
-            contact.setValue(sharedPrefs.getString("phone", "")!!, "phone")
-            contact.setValue(sharedPrefs.getString("email", "")!!, "email")
-            contact.setValue(sharedPrefs.getString("address", "")!!, "address")
-            contact.setValue(sharedPrefs.getString("img", "")!!, "img")
+        else{
+            finish()
         }
+
         val nameText = findViewById<EditText>(R.id.nameText)
         val surnameText = findViewById<EditText>(R.id.surnameText)
         val phoneText = findViewById<EditText>(R.id.phoneText)
@@ -65,12 +62,12 @@ class UpdateContactActivity : BaseActivity() {
         val addressText = findViewById<EditText>(R.id.addressText)
         val imageViewLog = findViewById<ImageView>(R.id.imageViewLog)
 
-        nameText.setText(contact.getValue("name"), null)
-        surnameText.setText(contact.getValue("surname"), null)
-        phoneText.setText(contact.getValue("phone"), null)
-        emailText.setText(contact.getValue("email"), null)
-        addressText.setText(contact.getValue("address"), null)
-        val imageUriString = contact.getValue("img")
+        nameText.setText(contact?.getValue("name"), null)
+        surnameText.setText(contact?.getValue("surname"), null)
+        phoneText.setText(contact?.getValue("phone"), null)
+        emailText.setText(contact?.getValue("email"), null)
+        addressText.setText(contact?.getValue("address"), null)
+        val imageUriString = contact?.getValue("img")
         if (imageUriString != null && imageUriString.isNotEmpty()) {
 
             imageViewLog.setImageURI(imageUriString.toUri())
@@ -90,19 +87,19 @@ class UpdateContactActivity : BaseActivity() {
             }
         }
         nameText.addTextChangedListener(createTextChangeWatcher{newText ->
-            contact.setValue(newText, "name")
+            contact?.setValue("name", newText)
         })
         surnameText.addTextChangedListener(createTextChangeWatcher{newText ->
-            contact.setValue(newText, "surname")
+            contact?.setValue("surname", newText)
         })
         phoneText.addTextChangedListener(createTextChangeWatcher{newText ->
-            contact.setValue(newText, "phone")
+            contact?.setValue("phone", newText)
         })
         emailText.addTextChangedListener(createTextChangeWatcher{newText ->
-            contact.setValue(newText, "email")
+            contact?.setValue("email", newText)
         })
         addressText.addTextChangedListener(createTextChangeWatcher{newText ->
-            contact.setValue(newText, "address")
+            contact?.setValue("address", newText)
         })
 
         val returnBtn = findViewById<Button>(R.id.returnBtm)
@@ -115,19 +112,8 @@ class UpdateContactActivity : BaseActivity() {
                 if (contact != null) {
                     if (contactId > 0) {
                         dbHelper.upDateContact(contact, contactId)
-                    } else {
-                        sharedPrefs.edit().apply {
-                            putString("name", nameText.text.toString())
-                            putString("surname", surnameText.text.toString())
-                            putString("phone", phoneText.text.toString())
-                            putString("email", emailText.text.toString())
-                            putString("address", addressText.text.toString())
-                            putString("img", selectedImageUri.toString())
-                            apply()
-                        }
                     }
                 }
-                finish()
             }else{
                 Toast.makeText(this, "@string/nothingChange", Toast.LENGTH_SHORT).show()
             }

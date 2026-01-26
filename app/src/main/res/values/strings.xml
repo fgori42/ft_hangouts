@@ -23,5 +23,6 @@
     <string name="eng">English</string>
     <string name="profileSetting">modifica profilo</string>
     <string name="nothingChange">nessuna modifica effettuata</string>
+    <string name="MessagePlaceholder">scrivi un messaggio...</string>
 
 </resources>

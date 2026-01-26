@@ -178,25 +178,36 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
                 m.$COLUMN_MESSAGE_TIMESTAMP
             FROM
                 $TABLE_CONTACTS c
-            JOIN
-                $TABLE_MESSAGES m ON c.$COLUMN_ID = m.$COLUMN_MESSAGE_CONTACT_ID
-            WHERE
-                m.$COLUMN_MESSAGE_TIMESTAMP = (
+            LEFT JOIN
+                    $TABLE_MESSAGES m ON c.$COLUMN_ID = m.$COLUMN_MESSAGE_CONTACT_ID
+                AND m.$COLUMN_MESSAGE_TIMESTAMP = (
                     SELECT MAX(m2.$COLUMN_MESSAGE_TIMESTAMP)
                     FROM $TABLE_MESSAGES m2
                     WHERE m2.$COLUMN_MESSAGE_CONTACT_ID = c.$COLUMN_ID
                 )
-            ORDER BY
-                    m.$COLUMN_MESSAGE_TIMESTAMP DESC 
+        ORDER BY
+    CASE WHEN m.$COLUMN_MESSAGE_TIMESTAMP IS NULL THEN 1 ELSE 0 END, 
+    m.$COLUMN_MESSAGE_TIMESTAMP DESC,
+    c.$COLUMN_NAME ASC
         """
         val cursor = db.rawQuery(selectQuery, null)
         if (cursor.moveToFirst()) {
             do{
-                val contact = SmartContact(
-                    cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_ID)),)
+                val contactId = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_ID))
+                val contact = SmartContact(contactId)
+
                 contact.name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME))
-                contact.LastMsg = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MESSAGE_CONTENT))
-                contact.time = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_MESSAGE_TIMESTAMP))
+                contact.img = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_URI))
+
+                val lastMessageContent = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MESSAGE_CONTENT))
+                if (lastMessageContent == null) {
+
+                    contact.LastMsg = "@string/MessagePlaceholder"
+                    contact.time = 0L
+                } else {
+                    contact.LastMsg = lastMessageContent
+                    contact.time = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_MESSAGE_TIMESTAMP))
+                }
                 contactList.add(contact)
             }while(cursor.moveToNext())
         }

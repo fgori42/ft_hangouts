@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ContactAdapter (private val contactList: List<SmartContact>, private val onItemClick :(SmartContact) -> Unit) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>()
+class ContactAdapter (private val contactList: List<SmartContact>, private val textColor: Int, private val onItemClick :(SmartContact) -> Unit) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>()
 {
     class ContactViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
@@ -33,6 +33,7 @@ class ContactAdapter (private val contactList: List<SmartContact>, private val o
         val currentContact = contactList[position]
 
         holder.contactName.text = currentContact.name
+        holder.contactName.setTextColor(textColor)
         val imageUri = currentContact.img
         if (!imageUri.isNullOrEmpty()) {
             val uri = Uri.parse(imageUri)
@@ -41,11 +42,16 @@ class ContactAdapter (private val contactList: List<SmartContact>, private val o
             holder.contactImage.setImageResource(R.drawable.ic_launcher_foreground)
         }
         holder.LastMsg.text = currentContact.LastMsg
+        holder.LastMsg.setTextColor(textColor)
         val timeToUse = Date(currentContact.time)
         val format = SimpleDateFormat("HH:mm  dd/MM", Locale.getDefault())
 
-        holder.time.text = format.format(timeToUse)
-
+        if (currentContact.time == 0L)
+            holder.time.text = ""
+        else {
+            holder.time.text = format.format(timeToUse)
+            holder.time.setTextColor(textColor)
+        }
         holder.itemView.setOnClickListener {
             onItemClick(currentContact)
         }

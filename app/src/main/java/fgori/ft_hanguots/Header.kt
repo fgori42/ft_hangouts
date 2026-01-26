@@ -32,6 +32,9 @@ class Header : FrameLayout {
     private var headerColor: String = "@color/light_blue_400"
     private var  listener: HeaderListener? = null
     private var toastTime: Long = 0
+    public var textColor : Int = Color.BLACK
+    var onEditClickListener: (() -> Unit)? = null
+
 
     constructor(context: Context) : super(context) {
         init(null, 0)
@@ -92,8 +95,11 @@ class Header : FrameLayout {
         val contactName = findViewById<TextView>(R.id.contactName)
         val contactPhone = findViewById<TextView>(R.id.contactPhone)
 
+
         contactName?.text = contact.getValue("name") + " " + contact.getValue("surname")
+        contactName?.setTextColor(textColor)
         contactPhone?.text = contact.getValue("phone")
+        contactPhone?.setTextColor(textColor)
         val imgUriString = contact.getValue("img")
         if (imgUriString.isNotEmpty()) {
             try {
@@ -106,10 +112,7 @@ class Header : FrameLayout {
         }
         val editBtn = findViewById<View>(R.id.editContactButton)
         editBtn?.setOnClickListener {
-            val intent = android.content.Intent(context, UpdateContactActivity::class.java)
-            intent.putExtra("contactId", contact.id)
-            context.startActivity(intent)
-
+            onEditClickListener?.invoke()
         }
     }
     private fun setChat() {
@@ -148,10 +151,14 @@ class Header : FrameLayout {
         val chatHeader = findViewById<View>(R.id.chatHeader)
         chatHeader?.background = gradient
         val headerText = findViewById<TextView>(R.id.header_text)
-        if (ColorUtils.calculateLuminance(Color.parseColor(headerColor)) < 0.6)
+        if (ColorUtils.calculateLuminance(Color.parseColor(headerColor)) < 0.6) {
             headerText.setTextColor(Color.WHITE)
-        else
+            textColor = Color.WHITE
+        }
+        else{
             headerText.setTextColor(Color.BLACK)
+            textColor = Color.BLACK
+        }
 
 
     }
@@ -188,6 +195,8 @@ class Header : FrameLayout {
     {
         return headerColor
     }
+
+
 
 
 }

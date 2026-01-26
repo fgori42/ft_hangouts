@@ -14,7 +14,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 2. Immagine: sotto l'Header, centrata orizzontalmente -->
     <ImageView
         android:id="@+id/imageViewLog"
         android:layout_width="128dp"
@@ -27,7 +26,6 @@
         tools:srcCompat="@tools:sample/avatars"
         android:contentDescription="@string/contact_image_description" />
 
-    <!-- 3. Campo Nome: sotto l'immagine -->
     <EditText
         android:id="@+id/nameText"
         android:layout_width="0dp"
@@ -42,7 +40,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageViewLog"
         tools:ignore="Autofill" />
 
-    <!-- 4. Campo Cognome: sotto il Nome -->
     <EditText
         android:id="@+id/surnameText"
         android:layout_width="0dp"
@@ -57,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/nameText"
         tools:ignore="Autofill" />
 
-    <!-- 5. Campo Email: sotto il Cognome -->
+
     <EditText
         android:id="@+id/emailText"
         android:layout_width="0dp"
@@ -72,7 +69,7 @@
         app:layout_constraintTop_toBottomOf="@+id/surnameText"
         tools:ignore="Autofill" />
 
-    <!-- 6. Campo Telefono: sotto l'Email -->
+
     <EditText
         android:id="@+id/phoneText"
         android:layout_width="0dp"
@@ -87,7 +84,6 @@
         app:layout_constraintTop_toBottomOf="@+id/emailText"
         tools:ignore="Autofill" />
 
-    <!-- 7. Campo Indirizzo: sotto il Telefono -->
     <EditText
         android:id="@+id/addressText"
         android:layout_width="0dp"
@@ -102,7 +98,6 @@
         app:layout_constraintTop_toBottomOf="@+id/phoneText"
         tools:ignore="Autofill" />
 
-    <!-- 8. Pulsante Salva: fisso in basso a destra -->
     <Button
         android:id="@+id/saveBtm"
         android:layout_width="wrap_content"
@@ -113,10 +108,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 9. Pulsante Annulla: a sinistra del pulsante Salva -->
     <Button
         android:id="@+id/returnBtm"
-        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

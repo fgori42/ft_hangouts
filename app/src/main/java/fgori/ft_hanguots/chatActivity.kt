@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.widget.EditText
 import android.content.Intent
+import android.content.Context
 
 
 class chatActivity() : BaseActivity() {
@@ -17,6 +18,13 @@ class chatActivity() : BaseActivity() {
     private lateinit var messageRecyclerView: RecyclerView // Correct
     private lateinit var messageList : MutableList<Message>
     private lateinit var messageAdapter: MessageAdapter
+
+    override fun onResume()
+    {
+        super.onResume()
+        if (isInChild)
+            recreate()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +39,14 @@ class chatActivity() : BaseActivity() {
             header.populateChatHeader(contact)
         }else{
             finish()
+        }
+
+        header.onEditClickListener = {
+            val intent = Intent(this, UpdateContactActivity::class.java)
+            intent.putExtra("contactId", contactId)
+            isInChild = true
+            startActivity(intent)
+
         }
 
 
