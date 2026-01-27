@@ -11,6 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.widget.EditText
 import android.content.Intent
 import android.content.Context
+import android.telephony.SmsManager
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 
 class chatActivity() : BaseActivity() {
@@ -73,7 +78,7 @@ class chatActivity() : BaseActivity() {
             val chatText = findViewById<EditText>(R.id.chatText)
             val message = chatText.text.toString()
             if (message.isNotEmpty()) {
-                val newMessage = Message(MsgDir.OUT, message, contactId)
+                val newMessage = Message(MsgDir.OUT, message, contactId, System.currentTimeMillis())
                 dbHelper.addMessage(newMessage)
                 messageList.add(newMessage)
 
@@ -81,6 +86,18 @@ class chatActivity() : BaseActivity() {
                 messageRecyclerView.scrollToPosition(messageList.size - 1)
 
                 chatText.text.clear()
+                val phoneNumber = contact?.getValue("phone")
+                if (phoneNumber.isNullOrEmpty()) {
+                    return@setOnClickListener
+                }
+                if (ContextCompat.checkSelfPermission(this,Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+                    try{
+                        val smsManager = getSystemService(SmsManager::class.java)
+                        smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+                    }catch (e: Exception){
+                        return@setOnClickListener
+                    }
+                }
             }
         }
 

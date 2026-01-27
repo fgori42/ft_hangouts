@@ -29,7 +29,7 @@ interface HeaderListener{
 }
 class Header : FrameLayout {
 
-    private var headerColor: String = "@color/light_blue_400"
+    private var headerColor: String = "#2196F3"
     private var  listener: HeaderListener? = null
     private var toastTime: Long = 0
     public var textColor : Int = Color.BLACK
@@ -139,6 +139,7 @@ class Header : FrameLayout {
         {
             println("color not found")
             startColor = Color.parseColor("#2196F3")
+            headerColor = startColor.toString()
         }
         topBand?.setBackgroundColor(startColor)
         val endColor: Int = Color.TRANSPARENT
@@ -184,8 +185,8 @@ class Header : FrameLayout {
 
         LayoutInflater.from(context).inflate(R.layout.sample_header_layout, this, true)
         val sharedPrefs by lazy { context.getSharedPreferences("UserProfile", Context.MODE_PRIVATE) }
-        val color = sharedPrefs.getString("USER_COLOR", "@color/light_blue_400")
-        headerColor = color ?: "@color/light_blue_400"
+        val color = sharedPrefs.getString("USER_COLOR", "#2196F3")
+        headerColor = color ?: "#2196F3"
         applyNewColor()
 
 

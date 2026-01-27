@@ -24,5 +24,8 @@
     <string name="profileSetting">modifica profilo</string>
     <string name="nothingChange">nessuna modifica effettuata</string>
     <string name="MessagePlaceholder">scrivi un messaggio...</string>
+    <string name="PhoneRequest">inserisci un numero di telefono valido</string>
+    <string name="PhoneIsIn">Numero gia in rubrica</string>
+    <string name="nameRequest">È richiesto un nome</string>
 
 </resources>

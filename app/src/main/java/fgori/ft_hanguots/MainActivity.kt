@@ -1,6 +1,7 @@
 package fgori.ft_hanguots
 
 import android.os.Bundle
+import android.Manifest
 import android.view.View
 import android.widget.Button
 import android.content.Intent
@@ -17,7 +18,12 @@ import android.graphics.drawable.GradientDrawable
 import android.widget.ImageButton
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.core.graphics.toColorInt
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.IntentFilter
+import androidx.core.content.ContextCompat
 
 
 class MainActivity : BaseActivity() {
@@ -25,11 +31,13 @@ class MainActivity : BaseActivity() {
     private lateinit var contactRecyclerView: RecyclerView
     private lateinit var contactAdapter: ContactAdapter
     private var contactList: MutableList<SmartContact> = mutableListOf()
+    private val SMS_PERMISSIONS_REQUEST_CODE = 100
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        checkAndRequestSmsPermission()
         setContentView(R.layout.activity_main)
         header.notifyActivityChanged("MainActivity")
 
@@ -72,6 +80,14 @@ class MainActivity : BaseActivity() {
             }
         })
 
+        val filter = IntentFilter("REFRESH_DATA")
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            registerReceiver(refreshReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            registerReceiver(refreshReceiver, filter)
+        }
+
 
         val button = findViewById<Button>(R.id.button)
         val button2 = findViewById<Button>(R.id.button2)
@@ -107,7 +123,7 @@ class MainActivity : BaseActivity() {
             isInChild = true
         }
 
-//        loadContactsFromDatabase()
+        loadContactsFromDatabase()
     }
     private fun filterContact(text: String?) {
         val filtedList = mutableListOf<SmartContact>()
@@ -123,6 +139,11 @@ class MainActivity : BaseActivity() {
         contactAdapter.updateData(filtedList)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(refreshReceiver)
+    }
+
     override fun onPause() {
         super.onPause()
     }
@@ -131,19 +152,55 @@ class MainActivity : BaseActivity() {
         if (isInChild) {
             isInChild = false
         }
-//        loadContactsFromDatabase()
     }
 
-//    private fun loadContactsFromDatabase() {
-//        val dbHelper = DatabaseHelper(this)
-//        val updatedContactList = dbHelper.getListLastChat()
-//        contactList.clear()
-//        contactList.addAll(updatedContactList)
-//        contactAdapter.notifyDataSetChanged()
-//    }
+    private val refreshReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            loadContactsFromDatabase() // Chiami la TUA funzione che hai già scritto!
+        }
+    }
+
+    private fun loadContactsFromDatabase() {
+        val dbHelper = DatabaseHelper(this)
+        val updatedContactList = dbHelper.getListLastChat()
+        contactList.clear()
+        contactList.addAll(updatedContactList)
+        contactAdapter.notifyDataSetChanged()
+    }
 
     private val activityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         recreate()
     }
+
+    private fun checkAndRequestSmsPermission() {
+        val permissionsToRequest = mutableListOf<String>()
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.SEND_SMS)
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.RECEIVE_SMS)
+        }
+
+        if (permissionsToRequest.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                this,
+                permissionsToRequest.toTypedArray(), // Converte la lista in un array
+                SMS_PERMISSIONS_REQUEST_CODE
+            )
+        }
+    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == SMS_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                Toast.makeText(this, "Permessi SMS concessi!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Attenzione: alcune funzioni SMS potrebbero non essere disponibili.", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
 
 }

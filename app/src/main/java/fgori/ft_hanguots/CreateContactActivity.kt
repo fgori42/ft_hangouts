@@ -41,11 +41,15 @@ class CreateContactActivity : BaseActivity() {
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
-            val savedUri = saveImageToInternalStorage(it)
-            savedUri?.let { newUri ->
-                selectedImageUri = newUri
-                image.setImageURI(newUri)
+            selectedImageUri = it
+            val contentResolver = applicationContext.contentResolver
+            val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            try {
+                contentResolver.takePersistableUriPermission(it, takeFlags)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+            image.setImageURI(it)
         }
     }
 
@@ -84,13 +88,18 @@ class CreateContactActivity : BaseActivity() {
         saveBtm.setOnClickListener {
             if (listOfText[0].text.toString() == "")
             {
-                Toast.makeText(this, "Name is required", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "@string/nameRequest", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if (listOfText[2].text.toString() == "" && listOfText[3].text.toString() == "")
+            if(listOfText[3].text.toString() == "" || listOfText[3].text.toString().length < 10)
             {
-                Toast.makeText(this, "Email or phone is required", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "@string/PhoneRequest", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if(dbHelper.isNumberInDatabase(listOfText[3].text.toString()) == 0)
+            {
+                Toast.makeText(this, "@string/PhoneIsIn", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             val newContact = Contact(id = System.currentTimeMillis(),

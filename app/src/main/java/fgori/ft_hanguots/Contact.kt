@@ -30,6 +30,12 @@ class Contact(public val id : Long) {
         this.address = address
         this.img = img
     }
+    constructor(name : String, phone: String) : this(-1)
+    {
+        this.name = name
+        this.phone = phone
+    }
+
     
     fun getValue(value: String): String
     {

@@ -82,7 +82,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
             put(COLUMN_MESSAGE_DIRECTION, message.direction.ordinal)
             put(COLUMN_MESSAGE_TIMESTAMP, message.timeStamp)
             // Usa la proprietà 'other' dall'oggetto Message per il contactId
-            put(COLUMN_MESSAGE_CONTACT_ID, message.other)
+            put(COLUMN_MESSAGE_CONTACT_ID, message.sender.toString())
         }
 
         db.insert(TABLE_MESSAGES, null, values)
@@ -214,6 +214,21 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         cursor.close()
         db.close()
         return contactList
+    }
+
+    fun isNumberInDatabase(number: String): Number{
+        val db = this.readableDatabase
+        val selectQuery = "SELECT * FROM $TABLE_CONTACTS WHERE $COLUMN_PHONE = ?"
+        val cursor = db.rawQuery(selectQuery, arrayOf(number))
+        if (cursor.moveToFirst()) {
+            val id = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_ID))
+            cursor.close()
+            db.close()
+            return id.toInt()
+        }
+        cursor.close()
+        db.close()
+        return 0
     }
 
     fun upDateContact(contact: Contact, id: Long) {
