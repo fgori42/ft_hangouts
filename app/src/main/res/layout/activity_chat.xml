@@ -56,5 +56,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/chatText" />
-
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_phone"
+        app:layout_constraintBottom_toTopOf="@id/sendButton"
+        app:layout_constraintEnd_toEndOf="@id/sendButton"
+        app:layout_constraintStart_toStartOf="@id/sendButton"
+        android:backgroundTint="#cefabd"
+        android:paddingBottom="8dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
