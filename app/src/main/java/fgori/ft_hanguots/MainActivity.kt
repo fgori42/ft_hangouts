@@ -50,18 +50,12 @@ class MainActivity : BaseActivity() {
         contactRecyclerView = findViewById(R.id.contactList)
         contactRecyclerView.layoutManager = LinearLayoutManager(this)
         contactList = dbHelper.getListLastChat().toMutableList()
-        contactAdapter = ContactAdapter(contactList.toMutableList(), header.textColor){contact ->
-            val intent = Intent(this, chatActivity::class.java)
-            intent.putExtra("contactId", contact.id)
-            isInChild = true
-            activityLauncher.launch(intent)
-        }
-        contactRecyclerView.adapter = contactAdapter
+        updateContactList(contactList.toMutableList())
+
         val searchBar = findViewById<SearchView>(R.id.search_view)
         val searchLayout = findViewById<View>(R.id.searchbarContainer)
         val opBtn = findViewById<ImageButton>(R.id.option_button)
         opBtn.colorFilter = android.graphics.PorterDuffColorFilter(header.textColor, android.graphics.PorterDuff.Mode.SRC_IN)
-
         searchLayout.setBackgroundColor( Color.parseColor(header.getHeaderColor()))
         val searchBarMargin = searchBar.background.mutate()
         if (searchBarMargin is GradientDrawable) {
@@ -80,7 +74,7 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        val filter = IntentFilter("REFRESH_DATA")
+        val filter = IntentFilter("com.fgori.ft_hanguots.UPDATE_CHAT")
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             registerReceiver(refreshReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
@@ -89,41 +83,34 @@ class MainActivity : BaseActivity() {
         }
 
 
-        val button = findViewById<Button>(R.id.button)
-        val button2 = findViewById<Button>(R.id.button2)
-        val button3 = findViewById<Button>(R.id.button3)
-        val button4 = findViewById<Button>(R.id.button4)
+        val button = findViewById<Button>(R.id.button2)
+        val button4 = findViewById<ImageButton>(R.id.option_button)
 
 
-        button.setOnClickListener {
-            if (button2.isVisible) {
-                button2.visibility = View.INVISIBLE
-                button3.visibility = View.INVISIBLE
-                button4.visibility = View.INVISIBLE
-            } else {
-                button2.visibility = View.VISIBLE
-                button3.visibility = View.VISIBLE
-                button4.visibility = View.VISIBLE
-            }
-        }
 
         button4.setOnClickListener {
             activityLauncher.launch(Intent(this, option::class.java))
             isInChild = true
         }
 
-        button3.setOnClickListener {
-            activityLauncher.launch(Intent(this, contactDisplayActivity::class.java))
-            isInChild = true
-        }
 
-
-        button2.setOnClickListener {
+        button.setOnClickListener {
             activityLauncher.launch(Intent(this, CreateContactActivity::class.java))
             isInChild = true
         }
 
         loadContactsFromDatabase()
+    }
+
+    private fun updateContactList(ListToshow : MutableList<SmartContact>){
+        contactAdapter = ContactAdapter(ListToshow, header.textColor){contact ->
+            val intent = Intent(this, chatActivity::class.java)
+            intent.putExtra("contactId", contact.id)
+            isInChild = true
+            activityLauncher.launch(intent)
+        }
+        contactRecyclerView.adapter = contactAdapter
+
     }
     private fun filterContact(text: String?) {
         val filtedList = mutableListOf<SmartContact>()
@@ -152,20 +139,26 @@ class MainActivity : BaseActivity() {
         if (isInChild) {
             isInChild = false
         }
+        loadContactsFromDatabase()
     }
 
     private val refreshReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            loadContactsFromDatabase() // Chiami la TUA funzione che hai già scritto!
+            if (intent?.action == "com.fgori.ft_hanguots.UPDATE_CHAT")
+                loadContactsFromDatabase()
         }
     }
 
     private fun loadContactsFromDatabase() {
-        val dbHelper = DatabaseHelper(this)
+        val newHelper = DatabaseHelper(this)
+        dbHelper.close()
+        dbHelper = newHelper
+        newHelper.close()
         val updatedContactList = dbHelper.getListLastChat()
         contactList.clear()
         contactList.addAll(updatedContactList)
         contactAdapter.notifyDataSetChanged()
+        updateContactList(contactList.toMutableList())
     }
 
     private val activityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -186,7 +179,7 @@ class MainActivity : BaseActivity() {
         if (permissionsToRequest.isNotEmpty()) {
             ActivityCompat.requestPermissions(
                 this,
-                permissionsToRequest.toTypedArray(), // Converte la lista in un array
+                permissionsToRequest.toTypedArray(),
                 SMS_PERMISSIONS_REQUEST_CODE
             )
         }

@@ -92,7 +92,7 @@ class CreateContactActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
-            if(listOfText[3].text.toString() == "" || listOfText[3].text.toString().length < 10)
+            if(listOfText[3].text.toString() == "" || listOfText[3].text.toString().length != 9)
             {
                 Toast.makeText(this, "@string/PhoneRequest", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener

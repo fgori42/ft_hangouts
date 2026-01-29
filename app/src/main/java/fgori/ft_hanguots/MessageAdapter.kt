@@ -6,6 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 
@@ -13,7 +16,9 @@ class MessageAdapter(private val messageList: List<Message>) : RecyclerView.Adap
 
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
+        val holderHolder: ConstraintLayout = itemView.findViewById(R.id.messageItem)
         val messageText: TextView = itemView.findViewById(R.id.messageTextView)
+        val timeText: TextView = itemView.findViewById(R.id.timeTextView)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -44,6 +49,26 @@ class MessageAdapter(private val messageList: List<Message>) : RecyclerView.Adap
             params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
         }
         holder.messageText.layoutParams = params
+
+        val hasNextMessage = position < messageList.size - 1
+        var showTime = true
+
+        if (hasNextMessage) {
+            val nextMessage = messageList[position + 1]
+            val nextMessageSender = nextMessage.sender
+            if (nextMessageSender == message.sender) {
+                showTime = false
+            }
+        }
+        if (showTime){
+            holder.timeText.visibility = View.VISIBLE
+            val formatToUse = SimpleDateFormat("HH:mm", Locale.getDefault())
+            holder.timeText.text = formatToUse.format(Date(message.timeStamp))
+        }else{
+            holder.timeText.visibility = View.GONE
+        }
+
+
     }
     override fun getItemCount(): Int {
         return messageList.size

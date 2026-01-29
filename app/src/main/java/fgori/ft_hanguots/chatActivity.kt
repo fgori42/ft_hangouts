@@ -13,6 +13,8 @@ import android.content.Intent
 import android.content.Context
 import android.telephony.SmsManager
 import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -29,6 +31,12 @@ class chatActivity() : BaseActivity() {
         super.onResume()
         if (isInChild)
             recreate()
+        loadChat()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(refreshReceiver)
     }
 
 
@@ -45,6 +53,15 @@ class chatActivity() : BaseActivity() {
         }else{
             finish()
         }
+
+        val filter = IntentFilter("com.fgori.ft_hanguots.UPDATE_CHAT")
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            registerReceiver(refreshReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            registerReceiver(refreshReceiver, filter)
+        }
+
 
         header.onEditClickListener = {
             val intent = Intent(this, UpdateContactActivity::class.java)
@@ -65,6 +82,9 @@ class chatActivity() : BaseActivity() {
 
         messageRecyclerView = findViewById(R.id.messageList)
         messageRecyclerView.layoutManager = LinearLayoutManager(this)
+        messageRecyclerView.layoutManager = LinearLayoutManager(this).apply {
+            stackFromEnd = true
+        }
         if (contactId != -1L) {
             messageList = dbHelper.getIdList(contactId)
         }else{
@@ -101,6 +121,23 @@ class chatActivity() : BaseActivity() {
             }
         }
 
+    }
+
+    private fun loadChat()
+    {
+        messageList.clear()
+        messageList.addAll(dbHelper.getIdList(
+            intent.getLongExtra("contactId", -1L)
+        ))
+        messageAdapter.notifyDataSetChanged()
+        messageRecyclerView.scrollToPosition(messageList.size - 1)
+    }
+
+    private val refreshReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == "com.fgori.ft_hanguots.UPDATE_CHAT")
+                loadChat()
+        }
     }
 
 
