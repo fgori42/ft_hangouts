@@ -175,6 +175,9 @@ class MainActivity : BaseActivity() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
             permissionsToRequest.add(Manifest.permission.RECEIVE_SMS)
         }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.CALL_PHONE)
+        }
 
         if (permissionsToRequest.isNotEmpty()) {
             ActivityCompat.requestPermissions(

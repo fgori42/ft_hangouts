@@ -18,6 +18,9 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import android.widget.ImageButton
+import android.widget.Toast
+import android.net.Uri
 
 
 class chatActivity() : BaseActivity() {
@@ -25,6 +28,7 @@ class chatActivity() : BaseActivity() {
     private lateinit var messageRecyclerView: RecyclerView // Correct
     private lateinit var messageList : MutableList<Message>
     private lateinit var messageAdapter: MessageAdapter
+    private val CALL_PHONE_PERMISSION_REQUEST_CODE = 102
 
     override fun onResume()
     {
@@ -120,9 +124,53 @@ class chatActivity() : BaseActivity() {
                 }
             }
         }
+        val phoneBtn = findViewById<ImageButton>(R.id.phone_button)
+        phoneBtn.setOnClickListener {
+            val phoneNumber = contact?.getValue("phone")
+            if(phoneNumber.isNullOrEmpty()){
+                return@setOnClickListener
+            } else {
+                makePhoneCall(phoneNumber)
+            }
+        }
 
     }
 
+    private fun makePhoneCall(phoneNumber: String) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CALL_PHONE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val callIntent = Intent(Intent.ACTION_CALL)
+            callIntent.data = Uri.parse("tel:$phoneNumber")
+            try{
+                startActivity(callIntent)
+            }catch (e: Exception){
+                return
+            }
+        }else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CALL_PHONE),
+                CALL_PHONE_PERMISSION_REQUEST_CODE
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CALL_PHONE_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                val contactId = intent.getLongExtra("contactId", -1L)
+                val contact = dbHelper.getIdContact(contactId)
+                val phoneNumber = contact?.getValue("phone")
+                if (!phoneNumber.isNullOrEmpty()) {
+                    makePhoneCall(phoneNumber)
+                }
+            }
+        }
+    }
     private fun loadChat()
     {
         messageList.clear()
