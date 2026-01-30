@@ -5,7 +5,9 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+
+
+class DatabaseHelper(private  val context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         private const val DATABASE_NAME = "ft_hangouts.db"
@@ -201,8 +203,8 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
 
                 val lastMessageContent = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MESSAGE_CONTENT))
                 if (lastMessageContent == null) {
-
-                    contact.LastMsg = "@string/MessagePlaceholder"
+                    val defaultTxt = context.getString(R.string.MessagePlaceholder)
+                    contact.LastMsg = defaultTxt
                     contact.time = 0L
                 } else {
                     contact.LastMsg = lastMessageContent
@@ -245,6 +247,24 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         val whereClause = "$COLUMN_ID = ?"
         val whereArgs = arrayOf(id.toString())
         db.update(TABLE_CONTACTS, values, whereClause, whereArgs)
+        db.close()
+    }
+
+    fun deleteContact(id: Long) {
+        if (id == -1L) return
+        val db = this.writableDatabase
+        db.beginTransaction()
+        try{
+            val messageWhereClause = "$COLUMN_MESSAGE_CONTACT_ID = ?"
+            val messageWhereArgs = arrayOf(id.toString())
+            db.delete(TABLE_MESSAGES, messageWhereClause, messageWhereArgs)
+            val whereClause = "$COLUMN_ID = ?"
+            val whereArgs = arrayOf(id.toString())
+            db.delete(TABLE_CONTACTS, whereClause, whereArgs)
+            db.setTransactionSuccessful()
+        }finally {
+            db.endTransaction()
+        }
         db.close()
     }
 

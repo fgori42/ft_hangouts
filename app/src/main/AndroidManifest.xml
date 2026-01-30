@@ -22,9 +22,6 @@
             android:name=".UpdateContactActivity"
             android:exported="false" />
         <activity
-            android:name=".contactDisplayActivity"
-            android:exported="false" />
-        <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>

@@ -84,11 +84,9 @@ class MainActivity : BaseActivity() {
 
 
         val button = findViewById<Button>(R.id.button2)
-        val button4 = findViewById<ImageButton>(R.id.option_button)
+        header.setButton(button)
 
-
-
-        button4.setOnClickListener {
+        opBtn.setOnClickListener {
             activityLauncher.launch(Intent(this, option::class.java))
             isInChild = true
         }

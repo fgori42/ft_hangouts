@@ -41,13 +41,15 @@
                 android:src="@drawable/ic_launcher_foreground"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/contactImg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/mask_circle"
                     android:scaleType="centerCrop"
-                    tools:srcCompat="@tools:sample/avatars"
-                    android:background="@drawable/background_circle"/>
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"/>
             </FrameLayout>
           <LinearLayout
               android:layout_width="match_parent"
@@ -84,12 +86,12 @@
               </LinearLayout>
 
               <ImageButton
-                  android:id="@+id/editContactButton"
-                  android:layout_width="30dp"
-                  android:layout_height="30dp"
+                  android:id="@+id/phoneButton"
+                  android:layout_width="50dp"
+                  android:layout_height="50dp"
                   android:layout_gravity="center_vertical"
                   android:background="?attr/selectableItemBackgroundBorderless"
-                  android:src="@drawable/outline_build_circle"
+                  android:src="@drawable/baseline_phone"
                   android:contentDescription="Modifica contatto" />
 
           </LinearLayout>

@@ -15,13 +15,17 @@ import android.graphics.drawable.GradientDrawable
 import androidx.core.view.isVisible
 import android.content.SharedPreferences
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import java.util.concurrent.TimeUnit
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.drawable.toDrawable
 import java.text.SimpleDateFormat
 import java.util.Locale
+import android.widget.Button
+import android.content.res.ColorStateList
 
 interface HeaderListener{
     fun onActivityChanged(activity: String)
@@ -34,6 +38,8 @@ class Header : FrameLayout {
     private var toastTime: Long = 0
     public var textColor : Int = Color.BLACK
     var onEditClickListener: (() -> Unit)? = null
+    var onPhoneClickListener: (() -> Unit)? = null
+
 
 
     constructor(context: Context) : super(context) {
@@ -105,13 +111,18 @@ class Header : FrameLayout {
             try {
                 contactImg?.setImageURI(android.net.Uri.parse(imgUriString))
             } catch (e: Exception) {
-                contactImg?.setImageResource(R.drawable.ic_launcher_foreground) // Default se l'URI fallisce
+                contactImg?.setImageResource(R.drawable.ic_launcher_foreground)
             }
         } else {
             contactImg?.setImageResource(R.drawable.ic_launcher_foreground)
         }
-        val editBtn = findViewById<View>(R.id.editContactButton)
-        editBtn?.setOnClickListener {
+        val phoneButton = findViewById<ImageButton>(R.id.phoneButton)
+        phoneButton?.colorFilter = android.graphics.PorterDuffColorFilter(textColor, android.graphics.PorterDuff.Mode.SRC_IN)
+        phoneButton?.setOnClickListener {
+            onPhoneClickListener?.invoke()
+        }
+        val chatHeader = findViewById<View>(R.id.chatHeader)
+        chatHeader?.setOnClickListener {
             onEditClickListener?.invoke()
         }
     }
@@ -197,7 +208,37 @@ class Header : FrameLayout {
         return headerColor
     }
 
+    public fun setButton(button: View){
+        val colorToInject = Color.parseColor(headerColor)
+        val strokeWidth = (2 * resources.displayMetrics.density).toInt()
 
+        if (button is Button) {
+            button.setTextColor(textColor)
+        }
 
+        if (button is ImageButton) {
+            button.setColorFilter(textColor, android.graphics.PorterDuff.Mode.SRC_IN)
+        }
+
+        button.backgroundTintList = null
+
+        val background = button.background?.mutate()
+
+        if (background is GradientDrawable) {
+            background.setColor(colorToInject) // Sfondo
+            background.setStroke(strokeWidth, textColor) // Bordo
+        }else {
+
+            val newDrawable = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                cornerRadius = 8 * resources.displayMetrics.density
+                setColor(textColor)
+                setStroke(strokeWidth, textColor)
+            }
+            button.background = newDrawable
+
+            button.backgroundTintList = null
+        }
+    }
 
 }

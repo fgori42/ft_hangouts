@@ -22,18 +22,23 @@ class UpdateContactActivity : BaseActivity() {
 
     private lateinit var image: ImageView
     private var selectedImageUri: Uri? = null
+    var isChange: Boolean = false
+    private val changedValues = mutableMapOf<String, String>()
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
-            selectedImageUri = it
-            val contentResolver = applicationContext.contentResolver
-            val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
             try {
+                val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 contentResolver.takePersistableUriPermission(it, takeFlags)
-            } catch (e: Exception) {
+            } catch (e: SecurityException) {
                 e.printStackTrace()
+                Toast.makeText(this, "Impossibile salvare l'immagine in modo permanente", Toast.LENGTH_SHORT).show()
             }
+
+            selectedImageUri = it
             image.setImageURI(it)
+            changedValues["img"] = it.toString()
+            isChange = true
         }
     }
 
@@ -41,10 +46,18 @@ class UpdateContactActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         val contactId = intent.getLongExtra("contactId", -1L)
         var contact : Contact? = null
-        var isChange: Boolean = false
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_update_contact)
         header.notifyActivityChanged("UpdateContactActivity")
+
+        val nameText = findViewById<EditText>(R.id.nameText)
+        val surnameText = findViewById<EditText>(R.id.surnameText)
+        val phoneText = findViewById<EditText>(R.id.phoneText)
+        val emailText = findViewById<EditText>(R.id.emailText)
+        val addressText = findViewById<EditText>(R.id.addressText)
+        image = findViewById<ImageView>(R.id.imageViewLog)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -52,22 +65,15 @@ class UpdateContactActivity : BaseActivity() {
         }
         if (contactId != -1L) {
             contact = dbHelper.getIdContact(contactId)
-                if(contact == null){
-                    Toast.makeText(this, "Contatto non trovato", Toast.LENGTH_SHORT).show()
-                    finish()
-                    return
-                }
+            if(contact == null){
+                finish()
+                return
             }
+        }
         else{
             finish()
         }
 
-        val nameText = findViewById<EditText>(R.id.nameText)
-        val surnameText = findViewById<EditText>(R.id.surnameText)
-        val phoneText = findViewById<EditText>(R.id.phoneText)
-        val emailText = findViewById<EditText>(R.id.emailText)
-        val addressText = findViewById<EditText>(R.id.addressText)
-        val imageViewLog = findViewById<ImageView>(R.id.imageViewLog)
 
         nameText.setText(contact?.getValue("name"), null)
         surnameText.setText(contact?.getValue("surname"), null)
@@ -77,37 +83,26 @@ class UpdateContactActivity : BaseActivity() {
         val imageUriString = contact?.getValue("img")
         if (imageUriString != null && imageUriString.isNotEmpty()) {
 
-            imageViewLog.setImageURI(imageUriString.toUri())
+            image.setImageURI(imageUriString.toUri())
         } else {
-            imageViewLog.setImageResource(R.drawable.ic_launcher_foreground)
+            image.setImageResource(R.drawable.ic_launcher_foreground)
         }
-        imageViewLog.setOnClickListener {
-            isChange = true
+        image.setOnClickListener {
             pickImageLauncher.launch("image/*")
         }
-        fun createTextChangeWatcher(updateAction: (String) -> Unit) = object : TextWatcher {
+        fun createTextChangeWatcher(key: String) = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {            }
             override fun afterTextChanged(s: Editable?) {
                 isChange = true
-                updateAction(s.toString())
+                changedValues[key] = s.toString()
             }
         }
-        nameText.addTextChangedListener(createTextChangeWatcher{newText ->
-            contact?.setValue("name", newText)
-        })
-        surnameText.addTextChangedListener(createTextChangeWatcher{newText ->
-            contact?.setValue("surname", newText)
-        })
-        phoneText.addTextChangedListener(createTextChangeWatcher{newText ->
-            contact?.setValue("phone", newText)
-        })
-        emailText.addTextChangedListener(createTextChangeWatcher{newText ->
-            contact?.setValue("email", newText)
-        })
-        addressText.addTextChangedListener(createTextChangeWatcher{newText ->
-            contact?.setValue("address", newText)
-        })
+        nameText.addTextChangedListener(createTextChangeWatcher("name"))
+        surnameText.addTextChangedListener(createTextChangeWatcher("surname"))
+        phoneText.addTextChangedListener(createTextChangeWatcher("phone"))
+        emailText.addTextChangedListener(createTextChangeWatcher("email"))
+        addressText.addTextChangedListener(createTextChangeWatcher("address"))
 
         val returnBtn = findViewById<Button>(R.id.returnBtm)
         returnBtn.setOnClickListener {
@@ -118,13 +113,24 @@ class UpdateContactActivity : BaseActivity() {
             if (isChange) {
                 if (contact != null) {
                     if (contactId > 0) {
+                        for((key, value ) in changedValues)
+                            contact.setValue(key, value)
+                        if (contact.getValue("name").isBlank() || contact.getValue("phone").isBlank()) {
+                            val text = getString(R.string.nameRequest) + " " + getString(R.string.PhoneRequest)
+                            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                            return@setOnClickListener
+                        }
                         dbHelper.upDateContact(contact, contactId)
+                        finish()
                     }
                 }
             }else{
                 Toast.makeText(this, "@string/nothingChange", Toast.LENGTH_SHORT).show()
             }
         }
+        header.setButton(saveBtn)
+        header.setButton(returnBtn)
+
     }
 
 

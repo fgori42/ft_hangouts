@@ -11,8 +11,7 @@ import fgori.ft_hanguots.Header
 import fgori.ft_hanguots.R
 import android.content.Intent
 import android.graphics.Color
-
-
+import android.widget.ImageButton
 
 
 class option : BaseActivity() {
@@ -42,18 +41,14 @@ class option : BaseActivity() {
         val redBar = findViewById<SeekBar>(R.id.seekBarRed)
         val greenBar = findViewById<SeekBar>(R.id.seekBarGreen)
         val blueBar = findViewById<SeekBar>(R.id.seekBarBlu)
-        val buttonHome = findViewById<Button>(R.id.buttonHome)
-        val buttonProfile = findViewById<Button>(R.id.button5)
+        val buttonHome = findViewById<ImageButton>(R.id.buttonHome)
+
+        header.setButton(buttonHome)
 
         buttonHome.setOnClickListener {
             finish()
         }
-        buttonProfile.setOnClickListener {
-            val intent = Intent(this, UpdateContactActivity::class.java)
-            intent.putExtra("contactId", -1L)
-            isInChild = true
-            startActivity(intent)
-        }
+
         retSeeker(redBar, greenBar, blueBar)
 
         val colorChangeListener = object : SeekBar.OnSeekBarChangeListener {

@@ -86,20 +86,24 @@ class CreateContactActivity : BaseActivity() {
         }
 
         saveBtm.setOnClickListener {
+            val txt : String
             if (listOfText[0].text.toString() == "")
             {
-                Toast.makeText(this, "@string/nameRequest", Toast.LENGTH_SHORT).show()
+                txt = getString(R.string.nameRequest)
+                Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if(listOfText[3].text.toString() == "" || listOfText[3].text.toString().length != 9)
+            if(listOfText[3].text.toString() == "" || listOfText[3].text.toString().length != 10)
             {
-                Toast.makeText(this, "@string/PhoneRequest", Toast.LENGTH_SHORT).show()
+                txt = getString(R.string.PhoneRequest)
+                Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            if(dbHelper.isNumberInDatabase(listOfText[3].text.toString()) == 0)
+            if(dbHelper.isNumberInDatabase(listOfText[3].text.toString()) != 0)
             {
-                Toast.makeText(this, "@string/PhoneIsIn", Toast.LENGTH_SHORT).show()
+                txt = getString(R.string.PhoneIsIn)
+                Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             val newContact = Contact(id = System.currentTimeMillis(),

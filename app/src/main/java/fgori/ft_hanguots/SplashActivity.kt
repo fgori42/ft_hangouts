@@ -11,13 +11,13 @@ import android.content.Intent
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val sharedPrefs = getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
-        val isLogged =sharedPrefs.getBoolean("IS_LOGGED_IN", false)
-        val intent = if (isLogged) {
-            Intent(this, MainActivity::class.java)
-        } else {
-            Intent(this, LoginActivity::class.java)
-        }
+//        val sharedPrefs = getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
+//        val isLogged =sharedPrefs.getBoolean("IS_LOGGED_IN", false)
+//        val intent = if (isLogged) {
+           val intent = Intent(this, MainActivity::class.java)
+//        } else {
+//            Intent(this, LoginActivity::class.java)
+//        }
         startActivity(intent)
         finish()
     }

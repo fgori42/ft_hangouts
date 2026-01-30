@@ -75,6 +75,15 @@ class chatActivity() : BaseActivity() {
 
         }
 
+        header.onPhoneClickListener = onPhoneClickListener@{
+            val phoneNumber = contact?.getValue("phone")
+            if(phoneNumber.isNullOrEmpty()){
+                return@onPhoneClickListener
+            } else {
+                makePhoneCall(phoneNumber)
+            }
+        }
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -122,15 +131,6 @@ class chatActivity() : BaseActivity() {
                         return@setOnClickListener
                     }
                 }
-            }
-        }
-        val phoneBtn = findViewById<ImageButton>(R.id.phone_button)
-        phoneBtn.setOnClickListener {
-            val phoneNumber = contact?.getValue("phone")
-            if(phoneNumber.isNullOrEmpty()){
-                return@setOnClickListener
-            } else {
-                makePhoneCall(phoneNumber)
             }
         }
 
