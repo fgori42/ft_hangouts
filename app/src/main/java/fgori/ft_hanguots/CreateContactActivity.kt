@@ -85,6 +85,10 @@ class CreateContactActivity : BaseActivity() {
            finish()
         }
 
+        header.setButton(saveBtm)
+        header.setButton(returnBtm)
+
+
         saveBtm.setOnClickListener {
             val txt : String
             if (listOfText[0].text.toString() == "")

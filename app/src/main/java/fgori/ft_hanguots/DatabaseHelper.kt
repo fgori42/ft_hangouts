@@ -123,6 +123,7 @@ class DatabaseHelper(private  val context: Context): SQLiteOpenHelper(context, D
         val selectQuery = "SELECT * FROM $TABLE_CONTACTS WHERE $COLUMN_ID = ?"
         if (idToFind == -1L) return null
         val cursor = db.rawQuery(selectQuery, arrayOf(idToFind.toString()))
+        if (cursor.count == 0) return null
         var contact: Contact? = null
         if (cursor.moveToFirst()) {
             val name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME))

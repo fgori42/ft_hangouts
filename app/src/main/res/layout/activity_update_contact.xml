@@ -60,6 +60,15 @@
                 android:autofillHints="name" />
 
             <EditText
+                android:id="@+id/phoneText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:hint="@string/phone_hint"
+                android:inputType="phone"
+                android:autofillHints="phone" />
+
+            <EditText
                 android:id="@+id/emailText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,14 +77,6 @@
                 android:inputType="textEmailAddress"
                 android:autofillHints="emailAddress" />
 
-            <EditText
-                android:id="@+id/phoneText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:hint="@string/phone_hint"
-                android:inputType="phone"
-                android:autofillHints="phone" />
 
             <EditText
                 android:id="@+id/addressText"
@@ -94,38 +95,50 @@
 
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal"
-                android:layout_margin="8dp"
+                android:layout_weight="7"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 >
                 <Button
-                    android:id="@+id/saveBtm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/button_default"
-                    android:text="@string/save"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-                <TextView
-                    android:layout_width="60dp"
-                    android:layout_height="1dp"/>
-
-                <Button
                     android:id="@+id/returnBtm"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
                     android:background="@drawable/button_default"
                     android:text="@string/cancel"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/saveBtm"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_default"
+                    android:text="@string/save"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"/>
+
+
+                <ImageButton
+                    android:id="@+id/deleteBtm"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/delete_button"
+                    android:src="@drawable/baseline_remove"
+                    />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

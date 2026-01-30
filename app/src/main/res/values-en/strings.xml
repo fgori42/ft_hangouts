@@ -27,4 +27,5 @@
     <string name="PhoneRequest">Phone is required</string>
     <string name="PhoneIsIn">Number already in database</string>
     <string name="nameRequest">Name is required</string>
+    <string name="use_system_language">"Use System Language"</string>
 </resources>

@@ -16,7 +16,7 @@ import android.text.Editable
 import android.widget.Button
 import android.widget.Toast
 import android.content.Intent
-import android.content.Context
+import android.widget.ImageButton
 
 class UpdateContactActivity : BaseActivity() {
 
@@ -57,6 +57,8 @@ class UpdateContactActivity : BaseActivity() {
         val emailText = findViewById<EditText>(R.id.emailText)
         val addressText = findViewById<EditText>(R.id.addressText)
         image = findViewById<ImageView>(R.id.imageViewLog)
+        val cancelBtn = findViewById<ImageButton>(R.id.deleteBtm)
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -109,6 +111,10 @@ class UpdateContactActivity : BaseActivity() {
             finish()
         }
         val saveBtn = findViewById<Button>(R.id.saveBtm)
+        cancelBtn.setOnClickListener {
+            dbHelper.deleteContact(contactId)
+            finish()
+        }
         saveBtn.setOnClickListener {
             if (isChange) {
                 if (contact != null) {

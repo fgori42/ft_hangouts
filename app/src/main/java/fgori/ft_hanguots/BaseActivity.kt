@@ -19,7 +19,8 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         dbHelper = DatabaseHelper(this)
         sharedPrefs = getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
-        applyLanguage()
+        val language = sharedPrefs.getString("app_language", "auto") ?: "auto"
+        applyLanguage(language)
     }
     override fun setContentView(layoutResID: Int) {
         super.setContentView(layoutResID)
@@ -35,8 +36,13 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onResume()
         header.onResume()
     }
-    protected fun applyLanguage()
+    protected fun applyLanguage(languageCode: String)
     {
+        val localeToSet: Locale = if (languageCode.equals("auto", ignoreCase = true)){
+            Locale.getDefault()
+        }else{
+            Locale(languageCode)
+        }
         val language = sharedPrefs.getString("USER_LANGUAGE", "default")
         val locale = Locale(language!!)
         Locale.setDefault(locale)

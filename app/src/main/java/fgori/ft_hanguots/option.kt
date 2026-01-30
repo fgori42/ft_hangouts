@@ -42,12 +42,20 @@ class option : BaseActivity() {
         val greenBar = findViewById<SeekBar>(R.id.seekBarGreen)
         val blueBar = findViewById<SeekBar>(R.id.seekBarBlu)
         val buttonHome = findViewById<ImageButton>(R.id.buttonHome)
+        val button5 = findViewById<Button>(R.id.systemLanguageButton)
+
 
         header.setButton(buttonHome)
+        header.setButton(button5)
+
 
         buttonHome.setOnClickListener {
             finish()
         }
+
+
+
+
 
         retSeeker(redBar, greenBar, blueBar)
 
@@ -66,6 +74,7 @@ class option : BaseActivity() {
         blueBar.setOnSeekBarChangeListener(colorChangeListener)
 
         val switchButton = findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switch2)
+        val currentLang = sharedPrefs.getString("USER_LANGUAGE", "default") ?: "default"
         val editor = sharedPrefs.edit()
         if (sharedPrefs.getString("USER_LANGUAGE", "default") == "en")
             switchButton.isChecked = true
@@ -75,7 +84,11 @@ class option : BaseActivity() {
             } else {
                 editor.putString("USER_LANGUAGE", "default").apply()
             }
-
+            recreate()
+        }
+        button5.setOnClickListener {
+            editor.putString("USER_LANGUAGE", "auto").apply()
+            recreate()
         }
     }
 
