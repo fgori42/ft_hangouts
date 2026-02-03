@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ft_hanguots</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Guardar</string>
+    <string name="name_hint">Nombre</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="surname_hint">Apellido</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="phone_hint">Teléfono</string>
+    <string name="address_hint">Dirección</string>
+    <string name="contact_image_description">Imagen del contacto</string>
+    <string name="login_hint">Iniciar sesión</string>
+    <string name="sigin_hint">Registrarse</string>
+    <string name="return_text">Volver atrás</string>
+    <string name="setting">Configuración</string>
+    <string name="chat">mensaje…</string>
+    <string name="backText">la aplicación se ha puesto en segundo plano</string>
+    <string name="backText2">durante</string>
+    <string name="backText3">segundos</string>
+    <string name="newProfile">nuevo contacto</string>
+    <string name="ita">Italiano</string>
+    <string name="eng">Inglés</string>
+    <string name="profileSetting">editar perfil</string>
+    <string name="nothingChange">ninguna modificación realizada</string>
+    <string name="MessagePlaceholder">escribir un mensaje…</string>
+    <string name="PhoneRequest">introduzca un número de teléfono válido</string>
+    <string name="PhoneIsIn">Número ya en la agenda</string>
+    <string name="nameRequest">Se requiere un nombre</string>
+    <string name="PermissionPositive">¡Permisos de SMS concedidos!</string>
+    <string name="PermissionNegative">Atención: algunas funciones de SMS pueden no estar disponibles.</string>
+</resources>
