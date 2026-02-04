@@ -12,6 +12,8 @@ import fgori.ft_hanguots.R
 import android.content.Intent
 import android.graphics.Color
 import android.widget.ImageButton
+import android.widget.RadioGroup
+import android.widget.RadioButton
 
 
 class option : BaseActivity() {
@@ -42,12 +44,8 @@ class option : BaseActivity() {
         val greenBar = findViewById<SeekBar>(R.id.seekBarGreen)
         val blueBar = findViewById<SeekBar>(R.id.seekBarBlu)
         val buttonHome = findViewById<ImageButton>(R.id.buttonHome)
-        val button5 = findViewById<Button>(R.id.systemLanguageButton)
-
 
         header.setButton(buttonHome)
-        header.setButton(button5)
-
 
         buttonHome.setOnClickListener {
             finish()
@@ -73,22 +71,36 @@ class option : BaseActivity() {
         greenBar.setOnSeekBarChangeListener(colorChangeListener)
         blueBar.setOnSeekBarChangeListener(colorChangeListener)
 
-        val switchButton = findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switch2)
-        val currentLang = sharedPrefs.getString("USER_LANGUAGE", "default") ?: "default"
+        val languageRadioGroup = findViewById<RadioGroup>(R.id.languageRadioGroup)
+        val radioItalian = findViewById<RadioButton>(R.id.radioItalian)
+        val radioEnglish = findViewById<RadioButton>(R.id.radioEnglish)
+        val radioSystem = findViewById<RadioButton>(R.id.radioSystem)
+        header.setRadioButtonStyle(radioItalian)
+        header.setRadioButtonStyle(radioEnglish)
+        header.setRadioButtonStyle(radioSystem)
         val editor = sharedPrefs.edit()
-        if (sharedPrefs.getString("USER_LANGUAGE", "default") == "en")
-            switchButton.isChecked = true
-        switchButton.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                editor.putString("USER_LANGUAGE", "en").apply()
-            } else {
-                editor.putString("USER_LANGUAGE", "default").apply()
-            }
-            recreate()
+
+        val currentLanguage = sharedPrefs.getString("app_language", "auto") ?: "auto"
+        when (currentLanguage) {
+            "it" -> languageRadioGroup.check(R.id.radioItalian)
+            "en" -> languageRadioGroup.check(R.id.radioEnglish)
+            "auto" -> languageRadioGroup.check(R.id.radioSystem)
         }
-        button5.setOnClickListener {
-            editor.putString("USER_LANGUAGE", "auto").apply()
-            recreate()
+
+
+
+        languageRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            val languageToSave = when (checkedId) {
+                R.id.radioItalian -> "it"
+                R.id.radioEnglish -> "en"
+                R.id.radioSystem -> "auto"
+                else -> "auto"
+            }
+
+            if (languageToSave != sharedPrefs.getString("app_language", "auto")) {
+                editor.putString("app_language", languageToSave).apply()
+                recreate()
+            }
         }
     }
 

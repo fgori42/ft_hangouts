@@ -34,7 +34,8 @@ class CreateContactActivity : BaseActivity() {
             Uri.fromFile(file)
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show()
+            val txt = getString(R.string.ImageFail)
+            Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
             null
         }
     }

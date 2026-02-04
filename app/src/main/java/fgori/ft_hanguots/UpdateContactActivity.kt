@@ -32,7 +32,8 @@ class UpdateContactActivity : BaseActivity() {
                 contentResolver.takePersistableUriPermission(it, takeFlags)
             } catch (e: SecurityException) {
                 e.printStackTrace()
-                Toast.makeText(this, "Impossibile salvare l'immagine in modo permanente", Toast.LENGTH_SHORT).show()
+                val txt = getString(R.string.ImageFail)
+                Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
             }
 
             selectedImageUri = it
@@ -119,12 +120,20 @@ class UpdateContactActivity : BaseActivity() {
             if (isChange) {
                 if (contact != null) {
                     if (contactId > 0) {
-                        for((key, value ) in changedValues)
+                        for((key, value ) in changedValues) {
+                            if (key == "name" || key == "phone"){
+                                if (key == "name" || value.isBlank()) {
+                                    val text = getString(R.string.nameRequest)
+                                    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                                    return@setOnClickListener
+                                }
+                                if (value.length != 10 || dbHelper.isNumberInDatabase(value) != 0){
+                                    val text = getString(R.string.PhoneRequest)
+                                    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                                    return@setOnClickListener
+                                }
+                            }
                             contact.setValue(key, value)
-                        if (contact.getValue("name").isBlank() || contact.getValue("phone").isBlank()) {
-                            val text = getString(R.string.nameRequest) + " " + getString(R.string.PhoneRequest)
-                            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-                            return@setOnClickListener
                         }
                         dbHelper.upDateContact(contact, contactId)
                         finish()

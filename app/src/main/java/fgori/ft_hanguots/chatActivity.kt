@@ -126,7 +126,10 @@ class chatActivity() : BaseActivity() {
                 if (ContextCompat.checkSelfPermission(this,Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
                     try{
                         val smsManager = getSystemService(SmsManager::class.java)
-                        smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+                        val parts = smsManager.divideMessage(message)
+                        println(parts)
+                        println(phoneNumber)
+                        smsManager.sendMultipartTextMessage(phoneNumber, null, parts, null, null)
                     }catch (e: Exception){
                         return@setOnClickListener
                     }

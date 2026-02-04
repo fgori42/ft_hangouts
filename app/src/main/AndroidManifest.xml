@@ -17,7 +17,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Ft_hanguots2">
+        android:theme="@style/Theme.Ft_hanguots2"
+        tools:targetApi="31">
         <activity
             android:name=".UpdateContactActivity"
             android:exported="false" />
@@ -40,9 +41,6 @@
             android:name=".chatActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true" />
         <activity
             android:name=".CreateContactActivity"
             android:exported="false" />

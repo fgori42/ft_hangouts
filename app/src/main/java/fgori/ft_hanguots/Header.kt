@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import android.widget.Button
 import android.content.res.ColorStateList
+import android.widget.RadioButton
 
 interface HeaderListener{
     fun onActivityChanged(activity: String)
@@ -238,6 +239,28 @@ class Header : FrameLayout {
             button.background = newDrawable
 
             button.backgroundTintList = null
+        }
+    }
+
+    public fun setRadioButtonStyle(radioButton: RadioButton) {
+        try{
+            val colorToApply = Color.parseColor(headerColor)
+            val defaultColor = Color.GRAY
+
+            val states = arrayOf(
+                intArrayOf(android.R.attr.state_checked),
+                intArrayOf(-android.R.attr.state_checked)
+            )
+
+            val colors = intArrayOf(
+                colorToApply,
+                defaultColor
+            )
+            val colorStateList = ColorStateList(states, colors)
+
+            radioButton.backgroundTintList = colorStateList
+        } catch (e: IllegalArgumentException){
+            radioButton.backgroundTintList = ColorStateList.valueOf(Color.GRAY)
         }
     }
 

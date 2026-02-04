@@ -1,35 +1,33 @@
 <resources>
     <string name="app_name">ft_hanguots</string>
-
-    <string name="cancel">Annulla</string>
-    <string name="save">Salva</string>
-    <string name="name_hint">Nome</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="name_hint">First Name</string>
     <string name="password_hint">Password</string>
-    <string name="surname_hint">Cognome</string>
+    <string name="surname_hint">Last Name</string>
     <string name="email_hint">Email</string>
-    <string name="phone_hint">Telefono</string>
-    <string name="address_hint">Indirizzo</string>
-    <string name="contact_image_description">Immagine del contatto</string>
-    <string name="login_hint">Accedi</string>
-    <string name="sigin_hint">Iscriviti</string>
-    <string name="return_text">Torna in dietro</string>
-    <string name="setting">Impostazioni</string>
-    <string name="chat">messaggio...</string>
-    <string name="backText">applicazione e` stata messa in background </string>
-    <string name="backText2"> per </string>
-    <string name="backText3"> secondi</string>
-    <string name="newProfile">nuovo contatto</string>
-    <string name="ita">Italiano</string>
+    <string name="phone_hint">Phone</string>
+    <string name="address_hint">Address</string>
+    <string name="contact_image_description">Contact Image</string>
+    <string name="login_hint">Log In</string>
+    <string name="sigin_hint">Sign Up</string>
+    <string name="return_text">Go Back</string>
+    <string name="setting">Settings</string>
+    <string name="chat">message...</string>
+    <string name="backText">application has been put in the background</string>
+    <string name="backText2">for</string>
+    <string name="backText3">seconds</string>
+    <string name="newProfile">new contact</string>
+    <string name="ita">Italian</string>
     <string name="eng">English</string>
-    <string name="profileSetting">modifica profilo</string>
-    <string name="nothingChange">nessuna modifica effettuata</string>
-    <string name="MessagePlaceholder">scrivi un messaggio...</string>
-    <string name="PhoneRequest">inserisci un numero di telefono valido</string>
-    <string name="PhoneIsIn">Numero gia in rubrica</string>
-    <string name="nameRequest">È richiesto un nome</string>
-    <string name="use_system_language">Usa il linguaggio del sistema</string>
-    <string name="PermissionPositive">Permessi SMS concessi!</string>
-    <string name="PermissionNegative">Attenzione: alcune funzioni SMS potrebbero non essere disponibili.</string>
-"
-
+    <string name="profileSetting">Edit Profile</string>
+    <string name="nothingChange">no changes made</string>
+    <string name="MessagePlaceholder">" write a message..."</string>
+    <string name="PhoneRequest">Phone is required</string>
+    <string name="PhoneIsIn">Number already in database</string>
+    <string name="nameRequest">Name is required</string>
+    <string name="use_system_language">"Use System Language"</string>
+    <string name="PermissionPositive">SMS permissions granted</string>
+    <string name="PermissionNegative">" Please note: Some SMS features may not be available."</string>
+    <string name="ImageFail">Failed to save image</string>
 </resources>

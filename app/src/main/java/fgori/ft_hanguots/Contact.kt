@@ -54,8 +54,6 @@ class Contact(public val id : Long) {
     
     fun setValue(value: String, newValue: String)
     {
-        if (newValue.trim().isEmpty() || value.trim().isEmpty())
-            throw IllegalArgumentException("Value cannot be empty")
         if (value != "name" && value != "surname" && value != "email" && value != "phone" && value != "address" && value != "img")
             throw IllegalArgumentException("Value cannot be empty")
         if (value == "email" && !newValue.contains("@"))

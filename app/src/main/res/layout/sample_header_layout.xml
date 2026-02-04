@@ -12,7 +12,7 @@
         <FrameLayout
             android:id="@+id/top_band"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="@dimen/header_height">
 
             <TextView
                 android:id="@+id/header_text"
@@ -27,7 +27,7 @@
       <RelativeLayout
             android:id="@+id/chatHeader"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="@dimen/header_height"
             android:background="@drawable/chat_banner"
             android:visibility="visible">
 

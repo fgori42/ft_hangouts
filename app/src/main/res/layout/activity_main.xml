@@ -10,7 +10,7 @@
     <fgori.ft_hanguots.Header
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="@dimen/header_height"
         app:layout_constraintTop_toTopOf="parent" />
     <include
         android:id="@+id/searchbar"

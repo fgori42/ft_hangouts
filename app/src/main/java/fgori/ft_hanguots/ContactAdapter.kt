@@ -41,7 +41,16 @@ class ContactAdapter (private val contactList: MutableList<SmartContact>, privat
         }else{
             holder.contactImage.setImageResource(R.drawable.ic_launcher_foreground)
         }
-        holder.LastMsg.text = currentContact.LastMsg
+
+        val maxChars = 25
+        val lastMessage = currentContact.LastMsg
+
+        if (lastMessage.length > maxChars) {
+            holder.LastMsg.text = "${lastMessage.substring(0, maxChars)}..."
+        } else {
+            holder.LastMsg.text = lastMessage
+        }
+
         holder.LastMsg.setTextColor(textColor)
         val timeToUse = Date(currentContact.time)
         val format = SimpleDateFormat("HH:mm  dd/MM", Locale.getDefault())

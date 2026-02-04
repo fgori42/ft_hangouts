@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ft_hanguots</string>
+
+    <string name="cancel">Annulla</string>
+    <string name="save">Salva</string>
+    <string name="name_hint">Nome</string>
+    <string name="password_hint">Password</string>
+    <string name="surname_hint">Cognome</string>
+    <string name="email_hint">Email</string>
+    <string name="phone_hint">Telefono</string>
+    <string name="address_hint">Indirizzo</string>
+    <string name="contact_image_description">Immagine del contatto</string>
+    <string name="login_hint">Accedi</string>
+    <string name="sigin_hint">Iscriviti</string>
+    <string name="return_text">Torna in dietro</string>
+    <string name="setting">Impostazioni</string>
+    <string name="chat">messaggio...</string>
+    <string name="backText">applicazione e` stata messa in background </string>
+    <string name="backText2"> per </string>
+    <string name="backText3"> secondi</string>
+    <string name="newProfile">nuovo contatto</string>
+    <string name="ita">Italiano</string>
+    <string name="eng">English</string>
+    <string name="profileSetting">modifica profilo</string>
+    <string name="nothingChange">nessuna modifica effettuata</string>
+    <string name="MessagePlaceholder">scrivi un messaggio...</string>
+    <string name="PhoneRequest">inserisci un numero di telefono valido</string>
+    <string name="PhoneIsIn">Numero gia in rubrica</string>
+    <string name="nameRequest">È richiesto un nome</string>
+    <string name="use_system_language">Usa il linguaggio del sistema</string>
+    <string name="PermissionPositive">Permessi SMS concessi!</string>
+    <string name="PermissionNegative">Attenzione: alcune funzioni SMS potrebbero non essere disponibili.</string>
+    <string name="ImageFail">Salvataggio dell\'immagine fallita</string>
+
+</resources>

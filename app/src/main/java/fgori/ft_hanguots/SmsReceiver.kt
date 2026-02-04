@@ -59,17 +59,22 @@ class SmsReceiver: BroadcastReceiver() {
     )
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
+            try {
+                val messages: Array<SmsMessage> =
+                    Telephony.Sms.Intents.getMessagesFromIntent(intent)
+                var mess = StringBuilder()
+                var sender = filterNumber(messages[0].displayOriginatingAddress)
+                for (message in messages) {
+                    mess.append(message.messageBody)
+                }
+                    saveSmsToDatabase(context, sender, mess.toString())
+                    val Updatepackage = Intent("com.fgori.ft_hanguots.UPDATE_CHAT")
+                    Updatepackage.setPackage(context.packageName)
+                    context.sendBroadcast(Updatepackage)
 
-            val messages: Array<SmsMessage> = Telephony.Sms.Intents.getMessagesFromIntent(intent)
-            for (message in messages) {
-                val sender = filterNumber(message.displayOriginatingAddress)
-                val body = message.messageBody
-
-
-                saveSmsToDatabase(context, sender, body)
-                val Updatepackage = Intent("com.fgori.ft_hanguots.UPDATE_CHAT")
-                Updatepackage.setPackage(context.packageName)
-                context.sendBroadcast(Updatepackage)
+            } catch (e: Exception)
+            {
+                println("Errore in SmsReceiver: ${e.message}")
             }
         }
     }

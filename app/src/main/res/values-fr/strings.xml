@@ -27,6 +27,8 @@
     <string name="PhoneRequest">insérez un numéro de téléphone valide</string>
     <string name="PhoneIsIn">Numéro déjà dans le répertoire</string>
     <string name="nameRequest">Un nom est requis</string>
+    <string name="use_system_language">Utiliser la langue du système</string>
     <string name="PermissionPositive">Autorisations SMS accordées !</string>
     <string name="PermissionNegative">Attention : certaines fonctionnalités SMS peuvent ne pas être disponibles.</string>
+    <string name="ImageFail">" Impossible d'enregistrer l'image"</string>
 </resources>
