@@ -28,5 +28,8 @@
     <string name="PhoneIsIn">Numero gia in rubrica</string>
     <string name="nameRequest">È richiesto un nome</string>
     <string name="use_system_language">Usa il linguaggio del sistema</string>
+    <string name="PermissionPositive">Permessi SMS concessi!</string>
+    <string name="PermissionNegative">Attenzione: alcune funzioni SMS potrebbero non essere disponibili.</string>
+"
 
 </resources>

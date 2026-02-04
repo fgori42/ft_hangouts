@@ -187,11 +187,14 @@ class MainActivity : BaseActivity() {
     }
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        var text = ""
         if (requestCode == SMS_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                Toast.makeText(this, "Permessi SMS concessi!", Toast.LENGTH_SHORT).show()
+                text = getString(R.string.PermissionPositive)
+                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Attenzione: alcune funzioni SMS potrebbero non essere disponibili.", Toast.LENGTH_LONG).show()
+                text = getString(R.string.PermissionNegative)
+                Toast.makeText(this, text, Toast.LENGTH_LONG).show()
             }
         }
     }

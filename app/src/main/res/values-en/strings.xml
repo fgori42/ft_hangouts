@@ -28,4 +28,6 @@
     <string name="PhoneIsIn">Number already in database</string>
     <string name="nameRequest">Name is required</string>
     <string name="use_system_language">"Use System Language"</string>
+    <string name="PermissionPositive">SMS permissions granted</string>
+    <string name="PermissionNegative">" Please note: Some SMS features may not be available."</string>
 </resources>
