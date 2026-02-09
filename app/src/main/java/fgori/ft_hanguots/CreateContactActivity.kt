@@ -38,6 +38,7 @@ class CreateContactActivity : BaseActivity() {
             Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
             null
         }
+
     }
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -124,7 +125,15 @@ class CreateContactActivity : BaseActivity() {
         }
 
         image.setOnClickListener {
+            isInChild = true
             pickImageLauncher.launch("image/*")
+        }
+
+    }
+    override fun onResume() {
+        super.onResume()
+        if (isInChild) {
+            isInChild = false
         }
     }
 }

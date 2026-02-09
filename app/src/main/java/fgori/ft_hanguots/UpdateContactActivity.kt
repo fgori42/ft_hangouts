@@ -91,6 +91,7 @@ class UpdateContactActivity : BaseActivity() {
             image.setImageResource(R.drawable.ic_launcher_foreground)
         }
         image.setOnClickListener {
+            isInChild = true
             pickImageLauncher.launch("image/*")
         }
         fun createTextChangeWatcher(key: String) = object : TextWatcher {
@@ -147,6 +148,10 @@ class UpdateContactActivity : BaseActivity() {
         header.setButton(returnBtn)
 
     }
-
-
+    override fun onResume() {
+        super.onResume()
+        if (isInChild) {
+            isInChild = false
+        }
+    }
 }

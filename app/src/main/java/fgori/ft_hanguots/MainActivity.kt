@@ -134,9 +134,6 @@ class MainActivity : BaseActivity() {
     }
     override fun onResume() {
         super.onResume()
-        if (isInChild) {
-            isInChild = false
-        }
         loadContactsFromDatabase()
     }
 
@@ -178,6 +175,7 @@ class MainActivity : BaseActivity() {
         }
 
         if (permissionsToRequest.isNotEmpty()) {
+            this.isInChild =  true
             ActivityCompat.requestPermissions(
                 this,
                 permissionsToRequest.toTypedArray(),
@@ -194,8 +192,9 @@ class MainActivity : BaseActivity() {
                 Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
             } else {
                 text = getString(R.string.PermissionNegative)
-                Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
             }
+            this.isInChild = false
         }
     }
 
