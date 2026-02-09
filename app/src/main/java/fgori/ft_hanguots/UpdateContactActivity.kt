@@ -122,18 +122,17 @@ class UpdateContactActivity : BaseActivity() {
                 if (contact != null) {
                     if (contactId > 0) {
                         for((key, value ) in changedValues) {
-                            if (key == "name" || key == "phone"){
-                                if (key == "name" || value.isBlank()) {
-                                    val text = getString(R.string.nameRequest)
-                                    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-                                    return@setOnClickListener
-                                }
-                                if (value.length != 10 || dbHelper.isNumberInDatabase(value) != 0){
-                                    val text = getString(R.string.PhoneRequest)
-                                    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-                                    return@setOnClickListener
-                                }
+                            if (key == "name" && value.isBlank()) {
+                                val text = getString(R.string.nameRequest)
+                                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                                return@setOnClickListener
                             }
+                            if (key == "phone" && (value.length != 10 || dbHelper.isNumberInDatabase(value) != 0)){
+                                val text = getString(R.string.PhoneRequest)
+                                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                                return@setOnClickListener
+                            }
+
                             contact.setValue(key, value)
                         }
                         dbHelper.upDateContact(contact, contactId)
@@ -141,7 +140,8 @@ class UpdateContactActivity : BaseActivity() {
                     }
                 }
             }else{
-                Toast.makeText(this, "@string/nothingChange", Toast.LENGTH_SHORT).show()
+                val txt = getString(R.string.nothingChange)
+                Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
             }
         }
         header.setButton(saveBtn)
