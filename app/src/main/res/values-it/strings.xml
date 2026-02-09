@@ -16,7 +16,7 @@
     <string name="return_text">Torna in dietro</string>
     <string name="setting">Impostazioni</string>
     <string name="chat">messaggio...</string>
-    <string name="backText">applicazione e` stata messa in background </string>
+    <string name="backText">applicazione è stata messa in background </string>
     <string name="backText2"> per </string>
     <string name="backText3"> secondi</string>
     <string name="newProfile">nuovo contatto</string>
@@ -31,6 +31,6 @@
     <string name="use_system_language">Usa il linguaggio del sistema</string>
     <string name="PermissionPositive">Permessi SMS concessi!</string>
     <string name="PermissionNegative">Attenzione: alcune funzioni SMS potrebbero non essere disponibili.</string>
-    <string name="ImageFail">Salvataggio dell\'immagine fallita</string>
+    <string name="ImageFail">Salvataggio dell'immagine fallita</string>
 
 </resources>

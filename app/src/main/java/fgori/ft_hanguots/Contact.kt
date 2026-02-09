@@ -56,8 +56,6 @@ class Contact(public val id : Long) {
     {
         if (value != "name" && value != "surname" && value != "email" && value != "phone" && value != "address" && value != "img")
             throw IllegalArgumentException("Value cannot be empty")
-        if (value == "email" && !newValue.contains("@"))
-            throw IllegalArgumentException("Email is not valid")
         when(value)
         {
              "name" -> name = newValue
