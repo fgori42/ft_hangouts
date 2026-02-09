@@ -93,14 +93,14 @@ class CreateContactActivity : BaseActivity() {
 
         saveBtm.setOnClickListener {
             val txt : String
-            if (listOfText[0].text.toString() == "")
+            if (listOfText[0].text.toString().isBlank())
             {
                 txt = getString(R.string.nameRequest)
                 Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if(listOfText[3].text.toString() == "" || listOfText[3].text.toString().length != 10)
+            if(listOfText[3].text.toString().isBlank() || listOfText[3].text.toString().length != 10)
             {
                 txt = getString(R.string.PhoneRequest)
                 Toast.makeText(this, txt, Toast.LENGTH_SHORT).show()
