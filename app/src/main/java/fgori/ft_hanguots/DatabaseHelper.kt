@@ -28,7 +28,7 @@ class DatabaseHelper(private  val context: Context): SQLiteOpenHelper(context, D
         const val COLUMN_MESSAGE_CONTENT = "content"
         const val COLUMN_MESSAGE_DIRECTION = "direction"
         const val COLUMN_MESSAGE_TIMESTAMP = "timestamp"
-        const val COLUMN_MESSAGE_CONTACT_ID = "contact_id" // Chiave Esterna
+        const val COLUMN_MESSAGE_CONTACT_ID = "contact_id"
     }
     
     override fun onCreate(db: SQLiteDatabase) {
@@ -83,7 +83,6 @@ class DatabaseHelper(private  val context: Context): SQLiteOpenHelper(context, D
             put(COLUMN_MESSAGE_CONTENT, message.content)
             put(COLUMN_MESSAGE_DIRECTION, message.direction.ordinal)
             put(COLUMN_MESSAGE_TIMESTAMP, message.timeStamp)
-            // Usa la proprietà 'other' dall'oggetto Message per il contactId
             put(COLUMN_MESSAGE_CONTACT_ID, message.sender.toString())
         }
 

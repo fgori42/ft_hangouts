@@ -226,8 +226,8 @@ class Header : FrameLayout {
         val background = button.background?.mutate()
 
         if (background is GradientDrawable) {
-            background.setColor(colorToInject) // Sfondo
-            background.setStroke(strokeWidth, textColor) // Bordo
+            background.setColor(colorToInject)
+            background.setStroke(strokeWidth, textColor)
         }else {
 
             val newDrawable = GradientDrawable().apply {

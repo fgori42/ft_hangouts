@@ -75,7 +75,7 @@ class ContactAdapter (private val contactList: MutableList<SmartContact>, privat
                 background.colors = intArrayOf(color, Color.TRANSPARENT)
             } catch (e: IllegalArgumentException) {
                 val color = Color.parseColor("#2196F3")
-                background.colors = intArrayOf(color, Color.TRANSPARENT) // Fallback
+                background.colors = intArrayOf(color, Color.TRANSPARENT)
             }
         }
     }

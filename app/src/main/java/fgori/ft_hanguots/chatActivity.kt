@@ -25,7 +25,7 @@ import android.net.Uri
 
 class chatActivity() : BaseActivity() {
 
-    private lateinit var messageRecyclerView: RecyclerView // Correct
+    private lateinit var messageRecyclerView: RecyclerView
     private lateinit var messageList : MutableList<Message>
     private lateinit var messageAdapter: MessageAdapter
     private val CALL_PHONE_PERMISSION_REQUEST_CODE = 102
