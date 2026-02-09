@@ -5,7 +5,7 @@
     android:id="@+id/messageItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="4dp"
+
     android:paddingBottom="4dp"
     android:paddingStart="8dp"
     android:paddingEnd="8dp">
@@ -14,21 +14,21 @@
         android:id="@+id/messageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_chat_bubble_received"
         android:maxWidth="280dp"
         android:padding="12dp"
         android:textColor="@android:color/black"
+
+
         android:textSize="16sp"
-
-
-        android:background="@drawable/bg_chat_bubble_received"
-
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
 
+        app:layout_constraintVertical_bias="0.217"
         tools:text="Questo è un messaggio di esempio per vedere come appare la bolla di chat." />
+
     <TextView
         android:id="@+id/timeTextView"
         android:layout_width="wrap_content"

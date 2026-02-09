@@ -41,22 +41,30 @@ class MessageAdapter(private val messageList: List<Message>) : RecyclerView.Adap
         val params = holder.messageText.layoutParams as ConstraintLayout.LayoutParams
         params.startToStart = ConstraintLayout.LayoutParams.UNSET
         params.endToEnd = ConstraintLayout.LayoutParams.UNSET
+
+        val timeParams = holder.timeText.layoutParams as ConstraintLayout.LayoutParams
+        timeParams.startToStart = ConstraintLayout.LayoutParams.UNSET
+        timeParams.endToEnd = ConstraintLayout.LayoutParams.UNSET
+
         if (getItemViewType(position) == 0) {
             holder.messageText.setBackgroundResource(R.drawable.bg_chat_bubble_received)
             params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+            timeParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
         } else {
             holder.messageText.setBackgroundResource(R.drawable.bg_chat_bubble_sent)
             params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+            timeParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
         }
         holder.messageText.layoutParams = params
+        holder.timeText.layoutParams = timeParams
 
         val hasNextMessage = position < messageList.size - 1
         var showTime = true
 
         if (hasNextMessage) {
             val nextMessage = messageList[position + 1]
-            val nextMessageSender = nextMessage.sender
-            if (nextMessageSender == message.sender) {
+            val timeDifference = nextMessage.timeStamp - message.timeStamp
+            if (nextMessage.direction == message.direction && timeDifference < 30000) {
                 showTime = false
             }
         }
