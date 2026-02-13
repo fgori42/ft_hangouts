@@ -32,5 +32,6 @@
     <string name="PermissionPositive">Permessi SMS concessi!</string>
     <string name="PermissionNegative">Attenzione: alcune funzioni SMS potrebbero non essere disponibili.</string>
     <string name="ImageFail">Salvataggio dell\'immagine fallita</string>
+    <string name="SearchHint">Cerca...</string>
 
 </resources>

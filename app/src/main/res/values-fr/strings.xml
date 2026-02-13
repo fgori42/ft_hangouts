@@ -31,4 +31,5 @@
     <string name="PermissionPositive">Autorisations SMS accordées !</string>
     <string name="PermissionNegative">Attention : certaines fonctionnalités SMS peuvent ne pas être disponibles.</string>
     <string name="ImageFail">" Impossible d\'enregistrer l\'image"</string>
+    <string name="SearchHint">Rechercher...</string>
 </resources>

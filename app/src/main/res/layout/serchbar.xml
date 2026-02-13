@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:iconifiedByDefault="false"
-            android:queryHint="Cerca..."
+            android:queryHint="@string/SearchHint"
             android:background="@drawable/search_bar_shape"
             android:imeOptions="actionSearch"
             android:inputType="textPersonName"

@@ -30,4 +30,5 @@
     <string name="PermissionPositive">SMS permissions granted</string>
     <string name="PermissionNegative">" Please note: Some SMS features may not be available."</string>
     <string name="ImageFail">Failed to save image</string>
+    <string name="SearchHint">Search...</string>
 </resources>
